@@ -25,4 +25,6 @@ public class PlayerController : MonoBehaviour
 
     // Moves the character using Unity's Input System
     public void OnMove(InputAction.CallbackContext ctx) => movementInput = ctx.ReadValue<Vector2>();
+
+    public Gamepad GetPlayerGamepad() { return playerGamepad; }
 }
