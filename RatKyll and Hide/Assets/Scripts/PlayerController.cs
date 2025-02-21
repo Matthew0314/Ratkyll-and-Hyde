@@ -1,7 +1,8 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Unity.Netcode;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : NetworkBehaviour //MonoBehaviour
 {
 
     [SerializeField] float speed = 5; // Speed of character
@@ -19,6 +20,7 @@ public class PlayerController : MonoBehaviour
     }
     void Update()
     {
+        if (!IsOwner) return;
         // Moves the Player
         transform.Translate(new Vector3(movementInput.x, 0, movementInput.y) * speed * Time.deltaTime);
     }
