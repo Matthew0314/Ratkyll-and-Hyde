@@ -205,7 +205,7 @@
                     "path": "<Gamepad>/leftStick",
                     "interactions": "",
                     "processors": "",
-                    "groups": ";KeyboardWASD;KeyboardArrows;Controller",
+                    "groups": ";KeyboardArrows;Controller",
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": false
