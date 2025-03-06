@@ -33,7 +33,7 @@ public class PlayerController : MonoBehaviour
                 playerGamepad = Gamepad.all[0];
             } else {
                 Debug.LogWarning("No gamepad found! Player 1 will use keyboard instead.");
-                playerInput.SwitchCurrentControlScheme("Keyboard&Mouse");
+                // playerInput.SwitchCurrentControlScheme("KeyboardWASD");
             }
         } 
         else if (playerNum == 1) {
@@ -43,15 +43,13 @@ public class PlayerController : MonoBehaviour
                 playerGamepad = Gamepad.all[1];
             } else {
                 Debug.Log("No second gamepad detected! Player 2 will use keyboard.");
-                playerInput.SwitchCurrentControlScheme("KeyboardWASD");
+                // playerInput.SwitchCurrentControlScheme("KeyboardWASD");
             }
         }
     }
 
     void Update()
     {
-        
-
         if (isClimbing) {
             ClimbMovement();
         } else {

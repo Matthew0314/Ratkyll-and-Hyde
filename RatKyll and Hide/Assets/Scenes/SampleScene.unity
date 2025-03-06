@@ -1097,7 +1097,7 @@ MonoBehaviour:
     m_ActionId: 53ba4a40-5dee-4e98-862c-f3377e52df34
     m_ActionName: 'Player/Jump[/DualSenseGamepadHID1/buttonSouth,/DualSenseGamepadHID/buttonSouth]'
   m_NeverAutoSwitchControlSchemes: 1
-  m_DefaultControlScheme: 
+  m_DefaultControlScheme: KeyboardWASD
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 5443635478187815607}
@@ -1371,7 +1371,7 @@ MonoBehaviour:
     m_ActionId: 53ba4a40-5dee-4e98-862c-f3377e52df34
     m_ActionName: 'Player/Jump[/DualSenseGamepadHID1/buttonSouth,/DualSenseGamepadHID/buttonSouth]'
   m_NeverAutoSwitchControlSchemes: 1
-  m_DefaultControlScheme: KeyboardWASD
+  m_DefaultControlScheme: 
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 5925400212188717091}
