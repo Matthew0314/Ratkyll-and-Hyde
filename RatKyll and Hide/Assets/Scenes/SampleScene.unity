@@ -772,7 +772,7 @@ GameObject:
   - component: {fileID: 2095095854}
   - component: {fileID: 2095095853}
   - component: {fileID: 2095095852}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1584,6 +1584,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sensitivity: 1
+  minDistance: 0.5
+  maxDistance: 5
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!23 &8357724063325558470
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1744,6 +1749,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sensitivity: 1
+  minDistance: 0.5
+  maxDistance: 5
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

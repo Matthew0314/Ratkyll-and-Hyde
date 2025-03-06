@@ -21,14 +21,10 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         cameraTransform = GetComponentInChildren<Camera>().transform;
         playerInput = GetComponent<PlayerInput>();
-        // playerInput.SwitchCurrentControlScheme(Gamepad.all[playerNum]);
-        // playerGamepad = Gamepad.all[playerNum];
-        // Debug.Log(Gamepad.all[0]);
-        // Debug.Log(Gamepad.all[1]);
-        // Debug.Log(Gamepad.all[2]);
+
         if (playerNum == 0) {
         // Player 1 always uses the first available gamepad
-            if (Gamepad.all.Count > 1) {
+            if (Gamepad.all.Count > 0) {
                 playerInput.SwitchCurrentControlScheme(Gamepad.all[0]);
                 playerGamepad = Gamepad.all[0];
             } else {
@@ -38,7 +34,7 @@ public class PlayerController : MonoBehaviour
         } 
         else if (playerNum == 1) {
             // Player 2 uses the second gamepad if available, otherwise uses keyboard
-            if (Gamepad.all.Count > 2) {
+            if (Gamepad.all.Count > 1) {
                 playerInput.SwitchCurrentControlScheme(Gamepad.all[1]);
                 playerGamepad = Gamepad.all[1];
             } else {
@@ -48,8 +44,8 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void Update()
-    {
+    void Update() {
+
         if (isClimbing) {
             ClimbMovement();
         } else {
@@ -61,23 +57,13 @@ public class PlayerController : MonoBehaviour
             rb.useGravity = true;
         }
     }
-
-    public void OnMove(InputAction.CallbackContext ctx) => movementInput = ctx.ReadValue<Vector2>();
-
-    public void OnJump(InputAction.CallbackContext context) {
-        if (context.performed && IsGrounded()) {
-            rb.linearVelocity = new Vector3(rb.linearVelocity.x, jumpForce, rb.linearVelocity.z);
-        }
-    }
-
     private void ClimbMovement() {
         Vector3 climbDirection = Vector3.Cross(Vector3.up, climbNormal).normalized; 
         Vector3 move = (climbDirection * (-1 * movementInput.x) + Vector3.up * movementInput.y) * climbSpeed;
         rb.linearVelocity = new Vector3(move.x, move.y, move.z);
     }
 
-    private void MoveCharacter()
-    {
+    private void MoveCharacter() {
         if (movementInput.sqrMagnitude > 0.01f) {
             Vector3 camForward = cameraTransform.forward;
             Vector3 camRight = cameraTransform.right;
@@ -101,20 +87,16 @@ public class PlayerController : MonoBehaviour
 
             // Move the player
             transform.Translate(moveDirection * speed * Time.deltaTime, Space.World);
-
         }
     }
 
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Climbable"))
-        {
+    void OnTriggerEnter(Collider other) {
+        if (other.CompareTag("Climbable")) {
             isClimbing = true;
             rb.useGravity = false;
 
             RaycastHit hit;
-            if (Physics.Raycast(transform.position, transform.forward, out hit, 1.5f))
-            {
+            if (Physics.Raycast(transform.position, transform.forward, out hit, 1.5f)) {
                 climbNormal = hit.normal;
                 Quaternion targetRotation = Quaternion.LookRotation(-climbNormal, Vector3.up);
                 transform.rotation = targetRotation;
@@ -122,14 +104,26 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Climbable"))
-        {
+    void OnTriggerExit(Collider other) {
+        if (other.CompareTag("Climbable")) {
             isClimbing = false;
             rb.useGravity = true;
         }
     }
 
     private bool IsGrounded() => Physics.Raycast(transform.position, Vector3.down, 0.8f);
+
+    
+    public void OnMove(InputAction.CallbackContext ctx) => movementInput = ctx.ReadValue<Vector2>();
+
+    public void OnJump(InputAction.CallbackContext context) {
+        if (isClimbing && context.performed) {
+            isClimbing = false;
+            rb.useGravity = true;
+            Vector3 forceDirection = -transform.forward; // Opposite direction
+            rb.AddForce(forceDirection * jumpForce, ForceMode.Impulse);
+        } else if (context.performed && IsGrounded()) {
+            rb.linearVelocity = new Vector3(rb.linearVelocity.x, jumpForce, rb.linearVelocity.z);
+        }
+    }
 }
