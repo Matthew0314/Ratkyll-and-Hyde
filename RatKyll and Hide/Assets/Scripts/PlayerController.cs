@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour
         // Debug.Log(Gamepad.all[2]);
         if (playerNum == 0) {
         // Player 1 always uses the first available gamepad
-            if (Gamepad.all.Count > 0) {
+            if (Gamepad.all.Count > 1) {
                 playerInput.SwitchCurrentControlScheme(Gamepad.all[0]);
                 playerGamepad = Gamepad.all[0];
             } else {
@@ -38,7 +38,7 @@ public class PlayerController : MonoBehaviour
         } 
         else if (playerNum == 1) {
             // Player 2 uses the second gamepad if available, otherwise uses keyboard
-            if (Gamepad.all.Count > 1) {
+            if (Gamepad.all.Count > 2) {
                 playerInput.SwitchCurrentControlScheme(Gamepad.all[1]);
                 playerGamepad = Gamepad.all[1];
             } else {
