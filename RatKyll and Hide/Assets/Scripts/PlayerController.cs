@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody rb;
     private Vector3 climbNormal;
     private Transform cameraTransform;
+    private GameObject currItem;
 
     void Start() {
         
@@ -23,7 +24,7 @@ public class PlayerController : MonoBehaviour
         playerInput = GetComponent<PlayerInput>();
         if (playerNum == 0) {
         // Player 1 always uses the first available gamepad
-            if (Gamepad.all.Count > 1) {
+            if (Gamepad.all.Count > 0) {
                 playerInput.SwitchCurrentControlScheme(Gamepad.all[0]);
                 playerGamepad = Gamepad.all[0];
             } else {
@@ -33,7 +34,7 @@ public class PlayerController : MonoBehaviour
         } 
         else if (playerNum == 1) {
             // Player 2 uses the second gamepad if available, otherwise uses keyboard
-            if (Gamepad.all.Count > 2) {
+            if (Gamepad.all.Count > 1) {
                 playerInput.SwitchCurrentControlScheme(Gamepad.all[1]);
                 playerGamepad = Gamepad.all[1];
             } else {
@@ -111,7 +112,11 @@ public class PlayerController : MonoBehaviour
     }
 
     private bool IsGrounded() => Physics.Raycast(transform.position, Vector3.down, 0.8f);
-
+    private GameObject GetCurrItem() => currItem;
+    private void RemoveCurrItem() => currItem = null;
+    public void SetCurrItem(GameObject item) {
+        if (currItem == null) currItem = item;
+    }
     
     public void OnMove(InputAction.CallbackContext ctx) => movementInput = ctx.ReadValue<Vector2>();
 

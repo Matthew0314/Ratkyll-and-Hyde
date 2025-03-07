@@ -8,14 +8,15 @@ public class PickUpItem : MonoBehaviour
     private Transform PickUpPointTwo;
     private Transform playerOneTransform;
     private Transform playerTwoTransform;
-    public float pickUpDistanceOne;
-    public float pickUpDistanceTwo;
-    public float throwForce;
-    public bool readytoThrow;
-    public bool itemisPicked;
-    public bool attachedToPlayerOne;
-    public bool attachedToPlayerTwo;
+    [SerializeField] float pickUpDistanceOne;
+    [SerializeField] float pickUpDistanceTwo;
+    [SerializeField] float throwForce;
+    [SerializeField] bool readytoThrow;
+    [SerializeField] bool itemisPicked;
+    [SerializeField] bool attachedToPlayerOne;
+    [SerializeField] bool attachedToPlayerTwo;
     private bool isCharging = false;
+    private GameObject currHolder;
     
     void Start()
     {
