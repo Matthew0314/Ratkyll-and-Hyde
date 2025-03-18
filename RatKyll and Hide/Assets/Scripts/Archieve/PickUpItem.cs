@@ -1,4 +1,4 @@
-using UnityEngine;
+/*using UnityEngine;
 using UnityEngine.UIElements;
 
 public class PickUpItem : MonoBehaviour
@@ -116,4 +116,4 @@ public class PickUpItem : MonoBehaviour
         itemisPicked = false;
         throwForce = 0;
     }
-}
+}*/

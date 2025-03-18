@@ -3,30 +3,34 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] float speed = 5f; // Speed of character
+    [SerializeField] float speed = 5f; // Speed of character6
     [SerializeField] int playerNum; // 0 for Player1, 1 for Player2
-    [SerializeField] float climbSpeed = 3f;
-    [SerializeField] float jumpForce = 5f;
+    [SerializeField] float climbSpeed = 3f; // Speed which player climbs the wall
+    [SerializeField] float jumpForce = 5f; // Force that is spplied when jumping
+    [SerializeField] float pickupRange = 3f; 
 
-    private Vector2 movementInput;
-    private PlayerInput playerInput;
-    private Gamepad playerGamepad;
+    private Vector2 movementInput; // Used for movement
+    private PlayerInput playerInput; // Input system
+    // private Gamepad playerGamepad; // Stores the Gamepad that is being used
     private bool isClimbing = false;
     private Rigidbody rb;
     private Vector3 climbNormal;
     private Transform cameraTransform;
-    private GameObject currItem;
+    // private GameObject currItem;
+    private IPickUpItem _heldItem;
 
     void Start() {
         
         rb = GetComponent<Rigidbody>();
         cameraTransform = GetComponentInChildren<Camera>().transform;
         playerInput = GetComponent<PlayerInput>();
+
+        // Assigns controllers based on player number
         if (playerNum == 0) {
         // Player 1 always uses the first available gamepad
             if (Gamepad.all.Count > 0) {
                 playerInput.SwitchCurrentControlScheme(Gamepad.all[0]);
-                playerGamepad = Gamepad.all[0];
+                // playerGamepad = Gamepad.all[0];
             } else {
                 Debug.LogWarning("No gamepad found! Player 1 will use keyboard instead.");
                 // playerInput.SwitchCurrentControlScheme("KeyboardWASD");
@@ -36,7 +40,7 @@ public class PlayerController : MonoBehaviour
             // Player 2 uses the second gamepad if available, otherwise uses keyboard
             if (Gamepad.all.Count > 1) {
                 playerInput.SwitchCurrentControlScheme(Gamepad.all[1]);
-                playerGamepad = Gamepad.all[1];
+                // playerGamepad = Gamepad.all[1];
             } else {
                 Debug.Log("No second gamepad detected! Player 2 will use keyboard.");
                 // playerInput.SwitchCurrentControlScheme("KeyboardWASD");
@@ -56,6 +60,8 @@ public class PlayerController : MonoBehaviour
             isClimbing = false;
             rb.useGravity = true;
         }
+
+        if (playerInput.actions["PickUp"].triggered) TryPickupItem();
     }
     private void ClimbMovement() {
         Vector3 climbDirection = Vector3.Cross(Vector3.up, climbNormal).normalized; 
@@ -90,6 +96,36 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void TryPickupItem() {
+
+        // If player already has an item, return back to update.
+        if (_heldItem != null) return;
+
+        // Get all colliders within range
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, pickupRange);
+
+        // For every collider in range, check if 
+        foreach (var hitCollider in hitColliders) {
+            if (hitCollider.CompareTag("Pickable")) {
+                PickUpItem(hitCollider.gameObject);
+                break; 
+            }
+        }
+    }
+
+    private void PickUpItem(GameObject item)
+    {
+        IPickUpItem usableItem = item.GetComponent<IPickUpItem>();
+        if (usableItem != null)
+        {
+            _heldItem = usableItem; // Store the item
+            item.transform.SetParent(transform); // Attach the item to the player
+            item.transform.localPosition = new Vector3(0, 1, 1); // Adjust the position to appear in the player's hand
+            item.GetComponent<Collider>().enabled = false; // Disable the collider to prevent it from interacting with the world
+            item.GetComponent<Rigidbody>().isKinematic = true; // Make the item stop interacting with physics
+        }
+    }
+
     void OnTriggerEnter(Collider other) {
         if (other.CompareTag("Climbable")) {
             isClimbing = true;
@@ -112,11 +148,11 @@ public class PlayerController : MonoBehaviour
     }
 
     private bool IsGrounded() => Physics.Raycast(transform.position, Vector3.down, 0.8f);
-    private GameObject GetCurrItem() => currItem;
-    private void RemoveCurrItem() => currItem = null;
-    public void SetCurrItem(GameObject item) {
-        if (currItem == null) currItem = item;
-    }
+    // private GameObject GetCurrItem() => currItem;
+    // private void RemoveCurrItem() => currItem = null;
+    // public void SetCurrItem(GameObject item) {
+    //     if (_heldItem == null) _heldItem = item;
+    // }
     
     public void OnMove(InputAction.CallbackContext ctx) => movementInput = ctx.ReadValue<Vector2>();
 
