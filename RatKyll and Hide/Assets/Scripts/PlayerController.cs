@@ -19,6 +19,14 @@ public class PlayerController : MonoBehaviour
     // private GameObject currItem;
     private IPickUpItem _heldItem;
 
+    private float minThrowForce = 5f;
+    private float maxThrowForce = 25f;
+    public float chargeTime = 2f;
+
+    private float currentForce;
+    private bool isCharging = false;
+    private float chargeStartTime;
+
     void Start() {
         
         rb = GetComponent<Rigidbody>();
@@ -61,8 +69,41 @@ public class PlayerController : MonoBehaviour
             rb.useGravity = true;
         }
 
-        if (playerInput.actions["PickUp"].triggered) TryPickupItem();
+        
+
+        if (playerInput.actions["PickUp"].WasPressedThisFrame() && _heldItem != null) StartCharging();
+        if (isCharging) ChargeThrow();
+        if (playerInput.actions["PickUp"].WasReleasedThisFrame() && _heldItem != null && isCharging) ThrowObject();
+
+        if (playerInput.actions["PickUp"].triggered && _heldItem == null) TryPickupItem();
     }
+
+    void StartCharging() {
+        isCharging = true;
+        chargeStartTime = Time.time;
+        currentForce = minThrowForce;
+    }
+
+    void ChargeThrow() {
+        float chargeDuration = Time.time - chargeStartTime;
+        currentForce = Mathf.Lerp(minThrowForce, maxThrowForce, chargeDuration / chargeTime);
+        Debug.Log("CHARGING");
+    }
+
+    void ThrowObject() {
+        isCharging = false;
+        _heldItem.GameObject.transform.SetParent(null); 
+        
+
+        Rigidbody rbObj = _heldItem.GameObject.GetComponent<Rigidbody>();
+
+        rbObj.isKinematic = false;
+        _heldItem.GameObject.GetComponent<Collider>().enabled = true;
+        rbObj.AddForce(Camera.main.transform.forward * currentForce, ForceMode.Impulse);
+        Debug.Log("Applying force: " + currentForce);
+        _heldItem = null;
+    }
+
     private void ClimbMovement() {
         Vector3 climbDirection = Vector3.Cross(Vector3.up, climbNormal).normalized; 
         Vector3 move = (climbDirection * (-1 * movementInput.x) + Vector3.up * movementInput.y) * climbSpeed;
@@ -124,6 +165,10 @@ public class PlayerController : MonoBehaviour
             item.GetComponent<Collider>().enabled = false; // Disable the collider to prevent it from interacting with the world
             item.GetComponent<Rigidbody>().isKinematic = true; // Make the item stop interacting with physics
         }
+    }
+
+    private void ThrowItem() {
+
     }
 
     void OnTriggerEnter(Collider other) {

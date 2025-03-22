@@ -4,5 +4,7 @@ public interface IPickUpItem
 {
     void PickUpItem();
     void UseItem();
+    GameObject GameObject { get; }
+    
     
 }
