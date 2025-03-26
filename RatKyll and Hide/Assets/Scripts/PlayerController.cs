@@ -80,6 +80,8 @@ public class PlayerController : MonoBehaviour
         if (playerInput.actions["PickUp"].triggered && _heldItem == null) TryPickupItem();
     }
 
+
+    // Begins charging 
     void StartCharging() {
         isCharging = true;
         chargeStartTime = Time.time;
@@ -162,15 +164,12 @@ public class PlayerController : MonoBehaviour
         if (usableItem != null)
         {
             _heldItem = usableItem; // Store the item
+            usableItem.LastPlayer = this; // Stores this script in the LastPlayer variable
             item.transform.SetParent(transform); // Attach the item to the player
             item.transform.localPosition = new Vector3(0, 1, 1); // Adjust the position to appear in the player's hand
             item.GetComponent<Collider>().enabled = false; // Disable the collider to prevent it from interacting with the world
             item.GetComponent<Rigidbody>().isKinematic = true; // Make the item stop interacting with physics
         }
-    }
-
-    private void ThrowItem() {
-
     }
 
     void OnTriggerEnter(Collider other) {
