@@ -71,10 +71,12 @@ public class PlayerController : MonoBehaviour
 
         
 
+        // Throws item
         if (playerInput.actions["PickUp"].WasPressedThisFrame() && _heldItem != null) StartCharging();
         if (isCharging) ChargeThrow();
         if (playerInput.actions["PickUp"].WasReleasedThisFrame() && _heldItem != null && isCharging) ThrowObject();
 
+        // Attempts to pickup an item
         if (playerInput.actions["PickUp"].triggered && _heldItem == null) TryPickupItem();
     }
 
