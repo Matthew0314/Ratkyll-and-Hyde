@@ -325,7 +325,7 @@ public class PlayerController : MonoBehaviour
 
         rbObj.isKinematic = false;
         _heldItem.GameObject.GetComponent<Collider>().enabled = true;
-        rbObj.AddForce(Camera.main.transform.forward * currentForce, ForceMode.Impulse);
+        rbObj.AddForce(transform.forward * currentForce, ForceMode.Impulse);
         Debug.Log("Applying force: " + currentForce);
         _heldItem = null;
     }

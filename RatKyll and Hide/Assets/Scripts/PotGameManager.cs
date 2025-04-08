@@ -11,11 +11,15 @@ public class PotGameManager : MonoBehaviour, IGameManager
     private float gameDuration = 300f; // Five minutes
     private float timer;
     [SerializeField] TextMeshProUGUI timerText;
+    [SerializeField] TextMeshProUGUI player1ScoreText;
+    [SerializeField] TextMeshProUGUI player2ScoreText;
 
 
 
     void Start() {
         timer = gameDuration;
+        player1ScoreText.text = player1Score.ToString();
+        player2ScoreText.text = player2Score.ToString();
     }
 
     // Update is called once per frame
@@ -41,6 +45,8 @@ public class PotGameManager : MonoBehaviour, IGameManager
         if (player.GetPlayerNum() == 0) player1Score += item.Points;
         else player2Score += item.Points;
 
+        player1ScoreText.text = player1Score.ToString();
+        player2ScoreText.text = player2Score.ToString();
         Debug.Log("Player1 " + player1Score + " Player2 " + player2Score);
     }
 
