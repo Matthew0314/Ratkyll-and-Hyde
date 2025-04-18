@@ -77,7 +77,34 @@ public class PickableItem : MonoBehaviour, IPickUpItem
     // Interface Properties
     public GameObject GameObject => gameObject;
     public PlayerController LastPlayer { get; set; }
+    public Transform SpawnPoint { get; set; }
     public int Points => points;
+
+    private FoodSpawnManager foodSpawnManager;
+
+    
+
+    // Optional: Ensure required components are present
+    private void Start()
+    {
+        // Add Rigidbody if not present
+        if (GetComponent<Rigidbody>() == null)
+        {
+            Rigidbody rb = gameObject.AddComponent<Rigidbody>();
+            rb.useGravity = true;
+            rb.isKinematic = false;
+        }
+
+        // Add Collider if not present
+        if (GetComponent<Collider>() == null)
+        {
+            gameObject.AddComponent<BoxCollider>();
+        }
+
+        // Ensure the object is tagged as Pickable
+        gameObject.tag = "Pickable";
+        foodSpawnManager = GameObject.Find("GameManager").GetComponent<FoodSpawnManager>();
+    }
         
     // Called when the item is picked up
     public void PickUpItem()
@@ -106,6 +133,12 @@ public class PickableItem : MonoBehaviour, IPickUpItem
         }
     }
 
+    public void DestroyItem() {
+
+        foodSpawnManager.NotifyFoodDestroyed(SpawnPoint);
+        Destroy(this.gameObject);
+    }
+
     // Called when the item is used
     public void UseItem()
     {
@@ -123,24 +156,5 @@ public class PickableItem : MonoBehaviour, IPickUpItem
         Destroy(gameObject);
     }
 
-    // Optional: Ensure required components are present
-    private void Start()
-    {
-        // Add Rigidbody if not present
-        if (GetComponent<Rigidbody>() == null)
-        {
-            Rigidbody rb = gameObject.AddComponent<Rigidbody>();
-            rb.useGravity = true;
-            rb.isKinematic = false;
-        }
-
-        // Add Collider if not present
-        if (GetComponent<Collider>() == null)
-        {
-            gameObject.AddComponent<BoxCollider>();
-        }
-
-        // Ensure the object is tagged as Pickable
-        gameObject.tag = "Pickable";
-    }
+    
 }
