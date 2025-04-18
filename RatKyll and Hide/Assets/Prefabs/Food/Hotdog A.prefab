@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 9126249460300945060}
   - component: {fileID: 7249438606626074634}
   - component: {fileID: 2378142875531283818}
-  - component: {fileID: 6124268089333767316}
   m_Layer: 0
   m_Name: Hotdog A
   m_TagString: Pickable
@@ -140,19 +139,6 @@ MeshCollider:
   m_CookingOptions: 30
   m_Mesh: {fileID: -3801437213236484938, guid: 79fff96ea916d7049aa5a29f035609de, type: 3}
 --- !u!114 &2378142875531283818
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6825769577917017499}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 02d62ecd6e031b34b99f1bcc9cf45374, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  points: 1
---- !u!114 &6124268089333767316
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
