@@ -32,11 +32,19 @@ public class FoodSpawnManager : MonoBehaviour
         GameObject spawned = Instantiate(prefab, chosenPoint.position, Quaternion.identity);
         activeFood[chosenPoint] = spawned;
 
+
+        if (spawned.TryGetComponent<IPickUpItem>(out var foodItem))
+        {
+            foodItem.SpawnPoint = chosenPoint;
+        }
+
+
         // Let the food know who its manager is
         // if (spawned.TryGetComponent<FoodItem>(out var foodItem))
         // {
         //     foodItem.SetManager(this, chosenPoint);
         // }
+
     }
 
     public void NotifyFoodDestroyed(Transform spawnPoint)

@@ -27,12 +27,12 @@ public class CookingPot : MonoBehaviour
         // Might have to change the tag
         // Supposed to check if a consumable food so it can destroy the object and add to the score
         if (collider.gameObject.CompareTag("Pickable")) {
-            if (collider.gameObject.GetComponent<IPickUpItem>().LastPlayer != null) {
+            IPickUpItem pickUp = collider.gameObject.GetComponent<IPickUpItem>();
+            if (pickUp.LastPlayer != null) {
                 IPickUpItem item = collider.gameObject.GetComponent<IPickUpItem>();
                 potGameManager.IncScore(item.LastPlayer, item);
             }
-
-            Destroy(collider.gameObject);
+            pickUp.DestroyItem();
         }
 
         // In the event that its a ketchup bottle add code to spit it out, can be done for next sprint
