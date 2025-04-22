@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: 91c06f1b8ecfe3648af6186469b79e8c
+guid: 35bc0df9503f62644ac3107c73e4f0b4
 AssetOrigin:
   serializedVersion: 1
   productId: 85050
   packageName: Food and Kitchen Props Pack
   packageVersion: 1.0
-  assetPath: Assets/Kitchen Asset/FBX/BottleMilk/Bottle/Bottle.fbx
+  assetPath: Assets/Kitchen Asset/FBX/Spoon/Spoon.fbx
   uploadId: 170868
 ModelImporter:
   serializedVersion: 22200
@@ -30,11 +30,11 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: No Name
-    second: {fileID: 2100000, guid: 8258e7738fa4b8a42a5a9f586f73363f, type: 2}
+    second: {fileID: 2100000, guid: d9c6697e04f7699499861c0056344228, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
-    materialSearch: 1
+    materialSearch: 0
     materialLocation: 1
   animations:
     legacyGenerateAnimations: 4
