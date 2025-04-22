@@ -2,14 +2,6 @@ using UnityEngine;
 
 public class CookingPot : MonoBehaviour
 {
-<<<<<<< HEAD
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-
-    private void OnCollisionEnter(Collision collision) {
-        if (collision.gameObject.CompareTag("Food")) {
-            if (collision.gameObject.GetComponent<IPickUpItem>().LastPlayer != null) {
-
-=======
     private PotGameManager potGameManager;
     void Start() {
         // Get the potGameManager script using gameobject.Find();
@@ -23,13 +15,10 @@ public class CookingPot : MonoBehaviour
             if (collision.gameObject.GetComponent<IPickUpItem>().LastPlayer != null) {
                 IPickUpItem item = collision.gameObject.GetComponent<IPickUpItem>();
                 potGameManager.IncScore(item.LastPlayer, item);
->>>>>>> b6cc0bf6b576ae9c4114342cda1821025f478e88
             }
 
             Destroy(collision.gameObject);
         }
-<<<<<<< HEAD
-=======
 
         // In the event that its a ketchup bottle add code to spit it out, can be done for next sprint
     }*/
@@ -47,7 +36,6 @@ public class CookingPot : MonoBehaviour
         }
 
         // In the event that its a ketchup bottle add code to spit it out, can be done for next sprint
->>>>>>> b6cc0bf6b576ae9c4114342cda1821025f478e88
     }
 
 

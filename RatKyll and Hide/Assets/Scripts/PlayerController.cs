@@ -251,10 +251,12 @@ public class PlayerController : MonoBehaviour
         playerInput = GetComponent<PlayerInput>();
         _gameManager = GameObject.Find("GameManager").GetComponent<IGameManager>();
 
+        Debug.LogError(Gamepad.all.Count);
+
         // Assigns controllers based on player number
         if (playerNum == 0) {
         // Player 1 always uses the first available gamepad
-            if (Gamepad.all.Count > 0) {
+            if (Gamepad.all.Count > 1) {
                 playerInput.SwitchCurrentControlScheme(Gamepad.all[0]);
                 // playerGamepad = Gamepad.all[0];
             } else {
@@ -264,7 +266,7 @@ public class PlayerController : MonoBehaviour
         } 
         else if (playerNum == 1) {
             // Player 2 uses the second gamepad if available, otherwise uses keyboard
-            if (Gamepad.all.Count > 1) {
+            if (Gamepad.all.Count > 2) {
                 playerInput.SwitchCurrentControlScheme(Gamepad.all[1]);
                 // playerGamepad = Gamepad.all[1];
             } else {
@@ -382,21 +384,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-<<<<<<< HEAD
-    private void PickUpItem(GameObject item)
-    {
-        IPickUpItem usableItem = item.GetComponent<IPickUpItem>();
-        if (usableItem != null)
-        {
-            _heldItem = usableItem; // Store the item
-            usableItem.LastPlayer = this; // Stores this script in the LastPlayer variable
-            item.transform.SetParent(transform); // Attach the item to the player
-            item.transform.localPosition = new Vector3(0, 1, 1); // Adjust the position to appear in the player's hand
-            item.GetComponent<Collider>().enabled = false; // Disable the collider to prevent it from interacting with the world
-            item.GetComponent<Rigidbody>().isKinematic = true; // Make the item stop interacting with physics
-        }
-    }
-=======
     // Picks up first item in array
     // private void PickUpItem(GameObject item) {
     //     IPickUpItem usableItem = item.GetComponent<IPickUpItem>();
@@ -420,7 +407,6 @@ public class PlayerController : MonoBehaviour
         item.transform.localPosition = new Vector3(0, 1, 1); // Adjust the position to appear in the player's hand
     }
     }
->>>>>>> b6cc0bf6b576ae9c4114342cda1821025f478e88
 
     void OnTriggerEnter(Collider other) {
         if (other.CompareTag("Climbable")) {
@@ -460,6 +446,7 @@ public class PlayerController : MonoBehaviour
             Vector3 forceDirection = -transform.forward; // Opposite direction
             rb.AddForce(forceDirection * jumpForce, ForceMode.Impulse);
         } else if (context.performed && IsGrounded()) {
+            Debug.LogError("AHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
             rb.linearVelocity = new Vector3(rb.linearVelocity.x, jumpForce, rb.linearVelocity.z);
         }
     }

@@ -1,13 +1,4 @@
 using UnityEngine;
-<<<<<<< HEAD
-
-public class PotGameManager : MonoBehaviour
-{
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-=======
 using TMPro;
 
 // Implement a timer, possibly later on we need a countdown and maybe a scene overview like in Mario Kart
@@ -29,16 +20,11 @@ public class PotGameManager : MonoBehaviour, IGameManager
         timer = gameDuration;
         player1ScoreText.text = player1Score.ToString();
         player2ScoreText.text = player2Score.ToString();
->>>>>>> b6cc0bf6b576ae9c4114342cda1821025f478e88
     }
 
     // Update is called once per frame
     void Update()
     {
-<<<<<<< HEAD
-        
-    }
-=======
         UpdateTimer();
     }
 
@@ -67,5 +53,4 @@ public class PotGameManager : MonoBehaviour, IGameManager
     public bool GameOver => gameOver;
 
 
->>>>>>> b6cc0bf6b576ae9c4114342cda1821025f478e88
 }
