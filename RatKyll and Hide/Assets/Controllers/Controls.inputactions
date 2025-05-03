@@ -247,7 +247,7 @@
                     "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
                     "processors": "",
-                    "groups": ";Controller;KeyboardArrows",
+                    "groups": ";Controller;KeyboardArrows;KeyboardWASD",
                     "action": "Jump",
                     "isComposite": false,
                     "isPartOfComposite": false

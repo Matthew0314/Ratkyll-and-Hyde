@@ -43,7 +43,7 @@ public class CameraMovement : MonoBehaviour
         // Rotate camera up/down without affecting orbiting
         transform.localRotation = Quaternion.Euler(xRotation, transform.localRotation.eulerAngles.y, 0);
 
-        AdjustCameraDistance();
+        // AdjustCameraDistance();
     }
 
     private void AdjustCameraDistance()

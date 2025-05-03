@@ -251,10 +251,12 @@ public class PlayerController : MonoBehaviour
         playerInput = GetComponent<PlayerInput>();
         _gameManager = GameObject.Find("GameManager").GetComponent<IGameManager>();
 
+        Debug.LogError(Gamepad.all.Count);
+
         // Assigns controllers based on player number
         if (playerNum == 0) {
         // Player 1 always uses the first available gamepad
-            if (Gamepad.all.Count > 0) {
+            if (Gamepad.all.Count > 1) {
                 playerInput.SwitchCurrentControlScheme(Gamepad.all[0]);
                 // playerGamepad = Gamepad.all[0];
             } else {
@@ -264,7 +266,7 @@ public class PlayerController : MonoBehaviour
         } 
         else if (playerNum == 1) {
             // Player 2 uses the second gamepad if available, otherwise uses keyboard
-            if (Gamepad.all.Count > 1) {
+            if (Gamepad.all.Count > 2) {
                 playerInput.SwitchCurrentControlScheme(Gamepad.all[1]);
                 // playerGamepad = Gamepad.all[1];
             } else {
@@ -444,6 +446,7 @@ public class PlayerController : MonoBehaviour
             Vector3 forceDirection = -transform.forward; // Opposite direction
             rb.AddForce(forceDirection * jumpForce, ForceMode.Impulse);
         } else if (context.performed && IsGrounded()) {
+            Debug.LogError("AHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
             rb.linearVelocity = new Vector3(rb.linearVelocity.x, jumpForce, rb.linearVelocity.z);
         }
     }
