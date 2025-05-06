@@ -292,6 +292,9 @@ public class PlayerController : MonoBehaviour
             isClimbing = false;
             rb.useGravity = true;
         }
+        if (rb.linearVelocity.y < 0) {
+            rb.AddForce(Vector3.down * 20f, ForceMode.Acceleration);
+        }
 
         // Throws item
         if (playerInput.actions["PickUp"].WasPressedThisFrame() && _heldItem != null) StartCharging();
@@ -340,6 +343,33 @@ public class PlayerController : MonoBehaviour
     }
 
     // Code for moving character
+    // private void MoveCharacter() {
+    //     if (movementInput.sqrMagnitude > 0.01f) {
+    //         Vector3 camForward = cameraTransform.forward;
+    //         Vector3 camRight = cameraTransform.right;
+
+    //         camForward.y = 0;
+    //         camRight.y = 0;
+    //         camForward.Normalize();
+    //         camRight.Normalize();
+
+    //         // Get movement direction
+    //         Vector3 moveDirection = (camForward * movementInput.y + camRight * movementInput.x).normalized;
+
+    //         // Rotate player to face movement direction
+    //         Transform cameraChild = transform.Find("Camera");
+    //         if (cameraChild != null) cameraChild.SetParent(null); // Temporarily detach camera
+
+    //         Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
+    //         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10);
+
+    //         if (cameraChild != null) cameraChild.SetParent(transform); // Reattach camera
+
+    //         // Move the player
+    //         transform.Translate(moveDirection * speed * Time.deltaTime, Space.World);
+    //     }
+    // }
+
     private void MoveCharacter() {
         if (movementInput.sqrMagnitude > 0.01f) {
             Vector3 camForward = cameraTransform.forward;
@@ -350,20 +380,27 @@ public class PlayerController : MonoBehaviour
             camForward.Normalize();
             camRight.Normalize();
 
-            // Get movement direction
-            Vector3 moveDirection = (camForward * movementInput.y + camRight * movementInput.x).normalized;
+            // Calculate movement direction relative to camera
+            Vector3 moveDirection = (camForward * movementInput.y + camRight * movementInput.x);
+            // Vector3 moveDirection = (camForward * movementInput.y + camRight * movementInput.x);
+            moveDirection.y = 0f; // <--- IMPORTANT
+            moveDirection.Normalize();
 
-            // Rotate player to face movement direction
+            // Apply only horizontal force
+            // rb.AddForce(moveDirection * speed, ForceMode.Acceleration);
+
+            // Rotate character to face movement direction
             Transform cameraChild = transform.Find("Camera");
-            if (cameraChild != null) cameraChild.SetParent(null); // Temporarily detach camera
+            if (cameraChild != null) cameraChild.SetParent(null);
 
             Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10);
 
-            if (cameraChild != null) cameraChild.SetParent(transform); // Reattach camera
+            if (cameraChild != null) cameraChild.SetParent(transform);
 
-            // Move the player
-            transform.Translate(moveDirection * speed * Time.deltaTime, Space.World);
+            // Apply force for movement
+            rb.AddForce(moveDirection * speed, ForceMode.Acceleration); // Or ForceMode.Force for mass-based force
+            // rb.linearVelocity = moveDirection * speed;
         }
     }
 
