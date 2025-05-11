@@ -6,5 +6,3 @@ From: Team Sababio
 - Matthew Holzer
 - Shane Maccarone
 - Maya Randall
-
-
