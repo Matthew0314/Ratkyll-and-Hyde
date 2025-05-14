@@ -74,7 +74,7 @@ public class PlayerController : MonoBehaviour
 
     void Update() {
         
-        if (_gameManager.GameOver) return;
+        if (_gameManager.GameOver || !canMove) return;
 
         // Ensure "Sprint" is bound in your Input Actions
         if (playerInput.actions["Sprint"].IsPressed() && _heldItem == null) isSprinting = true;
