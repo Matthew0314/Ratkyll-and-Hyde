@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 9083760531060562530}
   - component: {fileID: 3539969326133820205}
   - component: {fileID: 5301481514503762179}
-  - component: {fileID: 7287842403695785175}
   m_Layer: 0
   m_Name: Doughnut H
   m_TagString: Pickable
@@ -152,16 +151,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   points: 1
---- !u!114 &7287842403695785175
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 686046157836709292}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 02d62ecd6e031b34b99f1bcc9cf45374, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  points: 1
+  minPoints: 2
+  maxPoints: 3
