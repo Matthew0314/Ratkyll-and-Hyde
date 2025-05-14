@@ -93,6 +93,10 @@ public class PlayerController : MonoBehaviour
         if (rb.linearVelocity.y < 0) {
             rb.AddForce(Vector3.down * 20f, ForceMode.Acceleration);
         }
+
+        if (playerInput.actions["Jump"].WasReleasedThisFrame()) {
+            HandleJump();
+        }
         // if (!IsGrounded()) {
         //     rb.AddForce(Vector3.down * 20f, ForceMode.Acceleration);
         // }
@@ -275,15 +279,8 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    // Gets the player number that is using in the PotGameManager Script
-    public int GetPlayerNum() => playerNum;
-
-    // Used for movement
-    public void OnMove(InputAction.CallbackContext ctx) => movementInput = ctx.ReadValue<Vector2>();
-
-    // Used for jumping
-    public void OnJump(InputAction.CallbackContext context) {
-        if (isClimbing && context.performed) {
+    private void HandleJump() {
+        if (isClimbing) {
             isClimbing = false;
             rb.useGravity = true;
             Vector3 forceDirection = -transform.forward; // Opposite direction
@@ -292,15 +289,41 @@ public class PlayerController : MonoBehaviour
                 audioSource.clip = jumpClip;
                 audioSource.Play();
             }
-        } else if (context.performed && IsGrounded()) {
-            Debug.LogError("AHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
+        } else if (IsGrounded()) {
             rb.linearVelocity = new Vector3(rb.linearVelocity.x, jumpForce, rb.linearVelocity.z);
             if (!audioSource.isPlaying) {
                 audioSource.clip = jumpClip;
                 audioSource.Play();
             }
         }
+    }
+
+    // Gets the player number that is using in the PotGameManager Script
+    public int GetPlayerNum() => playerNum;
+
+    // Used for movement
+    public void OnMove(InputAction.CallbackContext ctx) => movementInput = ctx.ReadValue<Vector2>();
+
+    // Used for jumping
+    // public void OnJump(InputAction.CallbackContext context) {
+    //     if (isClimbing && context.performed) {
+    //         isClimbing = false;
+    //         rb.useGravity = true;
+    //         Vector3 forceDirection = -transform.forward; // Opposite direction
+    //         rb.AddForce(forceDirection * jumpForce, ForceMode.Impulse);
+    //         if (!audioSource.isPlaying) {
+    //             audioSource.clip = jumpClip;
+    //             audioSource.Play();
+    //         }
+    //     } else if (context.performed && IsGrounded()) {
+    //         Debug.LogError("AHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
+    //         rb.linearVelocity = new Vector3(rb.linearVelocity.x, jumpForce, rb.linearVelocity.z);
+    //         if (!audioSource.isPlaying) {
+    //             audioSource.clip = jumpClip;
+    //             audioSource.Play();
+    //         }
+    //     }
 
         
-    }
+    // }
 }

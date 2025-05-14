@@ -132,11 +132,11 @@ public class PickableItem : MonoBehaviour, IPickUpItem
         }
         
         // Notify the KetchupBottlerController if it exists
-        KetchupBottlerController bottler = GetComponent<KetchupBottlerController>();
-        if (bottler != null)
-        {
-            bottler.OnItemPickedUp(LastPlayer);
-        }
+        // KetchupBottlerController bottler = GetComponent<KetchupBottlerController>();
+        // if (bottler != null)
+        // {
+        //     bottler.OnItemPickedUp(LastPlayer);
+        // }
     }
 
     public void DestroyItem() {
@@ -151,15 +151,15 @@ public class PickableItem : MonoBehaviour, IPickUpItem
         Debug.Log($"Item {gameObject.name} used");
         
         // Call the Shoot method on the KetchupBottlerController
-        KetchupBottlerController bottler = GetComponent<KetchupBottlerController>();
-        if (bottler != null)
-        {
-            bottler.Shoot();
-            return; // Don't destroy the item if it's a ketchup bottle
-        }
+        // KetchupBottlerController bottler = GetComponent<KetchupBottlerController>();
+        // if (bottler != null)
+        // {
+        //     bottler.Shoot();
+        //     return; // Don't destroy the item if it's a ketchup bottle
+        // }
         
         // Only destroy if it's not a special item with its own controller
-        Destroy(gameObject);
+        // Destroy(gameObject);
     }
 
     

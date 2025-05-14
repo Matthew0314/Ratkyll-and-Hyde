@@ -14,6 +14,7 @@ public class SinkTeleporter : MonoBehaviour
         {
             // Teleport the player to the teleport point
             other.transform.position = teleportPt.transform.position;
+            other.gameObject.GetComponent<Rigidbody>().AddForce(Vector3.up * 300f, ForceMode.Impulse);
         }
     }
 }
