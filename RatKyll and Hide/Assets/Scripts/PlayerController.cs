@@ -31,6 +31,8 @@ public class PlayerController : MonoBehaviour
     private IGameManager _gameManager;
     private bool isSprinting;
     private AudioSource audioSource;
+    private bool canMove = true;
+    private bool invinsible = false;
 
 
     [SerializeField] AudioClip jumpClip;
@@ -94,12 +96,14 @@ public class PlayerController : MonoBehaviour
             rb.AddForce(Vector3.down * 20f, ForceMode.Acceleration);
         }
 
-        if (playerInput.actions["Jump"].WasReleasedThisFrame()) {
+        if (playerInput.actions["Jump"].WasPressedThisFrame()) {
             HandleJump();
         }
         // if (!IsGrounded()) {
         //     rb.AddForce(Vector3.down * 20f, ForceMode.Acceleration);
         // }
+
+        if (playerInput.actions["UseItem"].WasPressedThisFrame() && _heldItem != null) _heldItem.UseItem();
 
         // Throws item
         if (playerInput.actions["PickUp"].WasPressedThisFrame() && _heldItem != null) StartCharging();
@@ -146,34 +150,6 @@ public class PlayerController : MonoBehaviour
         Vector3 move = (climbDirection * (-1 * movementInput.x) + Vector3.up * movementInput.y) * climbSpeed;
         rb.linearVelocity = new Vector3(move.x, move.y, move.z);
     }
-
-    // Code for moving character
-    // private void MoveCharacter() {
-    //     if (movementInput.sqrMagnitude > 0.01f) {
-    //         Vector3 camForward = cameraTransform.forward;
-    //         Vector3 camRight = cameraTransform.right;
-
-    //         camForward.y = 0;
-    //         camRight.y = 0;
-    //         camForward.Normalize();
-    //         camRight.Normalize();
-
-    //         // Get movement direction
-    //         Vector3 moveDirection = (camForward * movementInput.y + camRight * movementInput.x).normalized;
-
-    //         // Rotate player to face movement direction
-    //         Transform cameraChild = transform.Find("Camera");
-    //         if (cameraChild != null) cameraChild.SetParent(null); // Temporarily detach camera
-
-    //         Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
-    //         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10);
-
-    //         if (cameraChild != null) cameraChild.SetParent(transform); // Reattach camera
-
-    //         // Move the player
-    //         transform.Translate(moveDirection * speed * Time.deltaTime, Space.World);
-    //     }
-    // }
 
     private void MoveCharacter() {
         if (movementInput.sqrMagnitude > 0.01f) {
@@ -240,7 +216,7 @@ public class PlayerController : MonoBehaviour
         if (usableItem != null) {
             _heldItem = usableItem; // Store the item
             usableItem.LastPlayer = this; // Stores this script in the LastPlayer variable
-            usableItem.PickUpItem(); // Call the PickUpItem method from the interface
+            // usableItem.PickUpItem(); // Call the PickUpItem method from the interface
             
             item.transform.SetParent(transform); // Attach the item to the player
             item.transform.localPosition = new Vector3(0, 1, 1); // Adjust the position to appear in the player's hand
@@ -248,6 +224,7 @@ public class PlayerController : MonoBehaviour
                 audioSource.clip = swipeClip;
                 audioSource.Play();
             }
+            _heldItem.PickUpItem();
         }
     }
 
@@ -278,6 +255,22 @@ public class PlayerController : MonoBehaviour
         return Physics.Raycast(transform.position, Vector3.down, 0.8f);
 
     }
+
+    public void StunPlayer() {
+        if (!invinsible) {
+            canMove = false;
+            invinsible = true;
+            Invoke("RemoveStun", 7f);
+        }
+    }
+
+    private void RemoveStun() {
+        canMove = true;
+        Invoke("RemoveInvinsibility", 3f);
+
+    }
+
+    private void RemoveInvinsibility() => invinsible = false;
 
     private void HandleJump() {
         if (isClimbing) {

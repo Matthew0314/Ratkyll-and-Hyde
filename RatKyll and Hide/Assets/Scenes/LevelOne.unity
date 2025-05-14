@@ -2855,6 +2855,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 4b27bd4d1d5f63a419ad49ef73520e1a, type: 3}
       insertIndex: 1
       addedObject: {fileID: 37601034}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 4b27bd4d1d5f63a419ad49ef73520e1a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2142201557}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 4b27bd4d1d5f63a419ad49ef73520e1a, type: 3}
       insertIndex: -1
@@ -3004,6 +3007,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: baa24253-3f67-4086-8476-0fbb74868315
     m_ActionName: 'Player/Sprint[/Keyboard/shift,/DualSenseGamepadHID/rightTrigger]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: a6a601be-075d-4570-b047-8fd40d57b9b0
+    m_ActionName: 'Player/UseItem[/Keyboard/q]'
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -5075,6 +5082,37 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2a120688d509a3544890997aecff7e86, type: 3}
+--- !u!1 &483348001
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 483348002}
+  m_Layer: 0
+  m_Name: KetchupPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &483348002
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 483348001}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 0.5430031, y: 0.45000076, z: -1.0970116}
+  m_LocalScale: {x: 0.010000002, y: 0.010000002, z: 0.01}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 245011691}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!1001 &497678661
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16109,6 +16147,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: baa24253-3f67-4086-8476-0fbb74868315
     m_ActionName: 'Player/Sprint[/Keyboard/shift,/DualSenseGamepadHID/rightTrigger]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: a6a601be-075d-4570-b047-8fd40d57b9b0
+    m_ActionName: 'Player/UseItem[/Keyboard/q]'
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -19675,6 +19717,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 4b27bd4d1d5f63a419ad49ef73520e1a, type: 3}
       insertIndex: 1
       addedObject: {fileID: 774350837}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 4b27bd4d1d5f63a419ad49ef73520e1a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 483348002}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 4b27bd4d1d5f63a419ad49ef73520e1a, type: 3}
       insertIndex: -1
@@ -19697,6 +19742,75 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 67d73cb4069028c44bd2fa0b64b7d061, type: 3}
   m_PrefabInstance: {fileID: 1484014132}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2025090078
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1303898804043391779, guid: 6583aedd0fdb641468a1ab6a80c1c07f, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.010000001
+      objectReference: {fileID: 0}
+    - target: {fileID: 1303898804043391779, guid: 6583aedd0fdb641468a1ab6a80c1c07f, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.010000003
+      objectReference: {fileID: 0}
+    - target: {fileID: 1303898804043391779, guid: 6583aedd0fdb641468a1ab6a80c1c07f, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.010000002
+      objectReference: {fileID: 0}
+    - target: {fileID: 1303898804043391779, guid: 6583aedd0fdb641468a1ab6a80c1c07f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -36.18
+      objectReference: {fileID: 0}
+    - target: {fileID: 1303898804043391779, guid: 6583aedd0fdb641468a1ab6a80c1c07f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 36.643
+      objectReference: {fileID: 0}
+    - target: {fileID: 1303898804043391779, guid: 6583aedd0fdb641468a1ab6a80c1c07f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -53.657
+      objectReference: {fileID: 0}
+    - target: {fileID: 1303898804043391779, guid: 6583aedd0fdb641468a1ab6a80c1c07f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1303898804043391779, guid: 6583aedd0fdb641468a1ab6a80c1c07f, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1303898804043391779, guid: 6583aedd0fdb641468a1ab6a80c1c07f, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1303898804043391779, guid: 6583aedd0fdb641468a1ab6a80c1c07f, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1303898804043391779, guid: 6583aedd0fdb641468a1ab6a80c1c07f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1303898804043391779, guid: 6583aedd0fdb641468a1ab6a80c1c07f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1303898804043391779, guid: 6583aedd0fdb641468a1ab6a80c1c07f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2612994696846692656, guid: 6583aedd0fdb641468a1ab6a80c1c07f, type: 3}
+      propertyPath: m_Name
+      value: ketchup_bottle
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 6583aedd0fdb641468a1ab6a80c1c07f, type: 3}
 --- !u!1 &2025784664
 GameObject:
   m_ObjectHideFlags: 0
@@ -20578,6 +20692,37 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7796e5e8ea6331043b117257a041c92d, type: 3}
+--- !u!1 &2142201556
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2142201557}
+  m_Layer: 0
+  m_Name: KetchupPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2142201557
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2142201556}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 0.5430031, y: 0.45000076, z: -1.0970116}
+  m_LocalScale: {x: 0.010000002, y: 0.010000002, z: 0.01}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1736205499}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!1001 &2145899132
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -21003,6 +21148,7 @@ SceneRoots:
   - {fileID: 2013900988}
   - {fileID: 1799315227}
   - {fileID: 1200158708}
+  - {fileID: 2025090078}
   - {fileID: 337167701}
   - {fileID: 303362142}
   - {fileID: 1647389975}
