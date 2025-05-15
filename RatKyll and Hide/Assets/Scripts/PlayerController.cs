@@ -4,11 +4,11 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    private float walkSpeed = 35f; // Speed of character6
+    private float walkSpeed = 40f; // Speed of character6
     private float sprintSpeed = 60f;
     [SerializeField] int playerNum; // 0 for Player1, 1 for Player2
     [SerializeField] float climbSpeed = 3f; // Speed which player climbs the wall
-    [SerializeField] float jumpForce = 5f; // Force that is spplied when jumping
+    private float jumpForce = 50f; // Force that is spplied when jumping
     [SerializeField] float pickupRange = 3f; 
 
     private Vector2 movementInput; // Used for movement
@@ -37,6 +37,8 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] AudioClip jumpClip;
     [SerializeField] AudioClip swipeClip;
+
+    [SerializeField] Animator animator;
 
     void Start() {
         // Used later
@@ -86,6 +88,9 @@ public class PlayerController : MonoBehaviour
         } else {
             MoveCharacter();
         }
+
+        
+
 
         // I forgot what this does tbh
         if (IsGrounded() && movementInput.y <= 0.5f) {
@@ -167,6 +172,12 @@ public class PlayerController : MonoBehaviour
 
             float currentSpeed = isSprinting ? sprintSpeed : walkSpeed;
 
+            if (isSprinting) {
+                animator.SetFloat("Speed", 1f);
+            } else {
+                animator.SetFloat("Speed", 0.5f);
+            }
+
             Transform cameraChild = transform.Find("Camera");
             if (cameraChild != null) cameraChild.SetParent(null);
 
@@ -176,6 +187,8 @@ public class PlayerController : MonoBehaviour
             if (cameraChild != null) cameraChild.SetParent(transform);
 
             rb.AddForce(moveDirection * currentSpeed, ForceMode.Acceleration);
+        } else {
+            animator.SetFloat("Speed", 0f);
         }
     }
 
@@ -251,8 +264,8 @@ public class PlayerController : MonoBehaviour
 
     // Checks if the player is on the ground using a raycast
     private bool IsGrounded() { 
-        // Debug.LogError("HIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII");
-        return Physics.Raycast(transform.position, Vector3.down, 0.8f);
+
+        return Physics.Raycast(transform.position, Vector3.down, 2f);
 
     }
 
@@ -283,6 +296,8 @@ public class PlayerController : MonoBehaviour
                 audioSource.Play();
             }
         } else if (IsGrounded()) {
+            Debug.LogError("JUMPPPPPIIINNNGGG");
+
             rb.linearVelocity = new Vector3(rb.linearVelocity.x, jumpForce, rb.linearVelocity.z);
             if (!audioSource.isPlaying) {
                 audioSource.clip = jumpClip;
