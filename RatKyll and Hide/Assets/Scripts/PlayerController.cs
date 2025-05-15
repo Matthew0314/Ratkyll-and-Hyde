@@ -175,8 +175,16 @@ public class PlayerController : MonoBehaviour
             if (isSprinting) {
                 animator.SetFloat("Speed", 1f);
             } else {
+                // if (_heldItem != null) animator.SetFloat("Speed", 1f);
                 animator.SetFloat("Speed", 0.5f);
             }
+
+
+            if (_heldItem != null) {
+                animator.SetBool("Holding", true);
+                animator.SetFloat("Speed", 1f);
+            }
+            else animator.SetBool("Holding", false);
 
             Transform cameraChild = transform.Find("Camera");
             if (cameraChild != null) cameraChild.SetParent(null);
