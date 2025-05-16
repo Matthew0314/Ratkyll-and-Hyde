@@ -174,3 +174,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   points: 3
+  minPoints: 8
+  maxPoints: 10

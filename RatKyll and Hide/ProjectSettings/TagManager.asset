@@ -7,6 +7,9 @@ TagManager:
   - Climbable
   - Pickable
   - MusicPlayer
+  - Floor
+  - Surface
+  - Mustard
   layers:
   - Default
   - TransparentFX

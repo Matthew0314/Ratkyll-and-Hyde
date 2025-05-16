@@ -71,6 +71,8 @@ using UnityEngine;
 public class PickableItem : MonoBehaviour, IPickUpItem
 {
     [SerializeField] private int points = 1; // Default points value
+    [SerializeField] private int minPoints = 1;
+    [SerializeField] private int maxPoints = 1;
     private bool isPickedUp = false;
     private PlayerController currentPlayer;
 
@@ -104,6 +106,10 @@ public class PickableItem : MonoBehaviour, IPickUpItem
         // Ensure the object is tagged as Pickable
         gameObject.tag = "Pickable";
         foodSpawnManager = GameObject.Find("GameManager").GetComponent<FoodSpawnManager>();
+
+        if (points != -1) points = Random.Range(minPoints, maxPoints + 1);
+
+
     }
         
     // Called when the item is picked up
@@ -126,11 +132,11 @@ public class PickableItem : MonoBehaviour, IPickUpItem
         }
         
         // Notify the KetchupBottlerController if it exists
-        KetchupBottlerController bottler = GetComponent<KetchupBottlerController>();
-        if (bottler != null)
-        {
-            bottler.OnItemPickedUp(LastPlayer);
-        }
+        // KetchupBottlerController bottler = GetComponent<KetchupBottlerController>();
+        // if (bottler != null)
+        // {
+        //     bottler.OnItemPickedUp(LastPlayer);
+        // }
     }
 
     public void DestroyItem() {
@@ -145,15 +151,15 @@ public class PickableItem : MonoBehaviour, IPickUpItem
         Debug.Log($"Item {gameObject.name} used");
         
         // Call the Shoot method on the KetchupBottlerController
-        KetchupBottlerController bottler = GetComponent<KetchupBottlerController>();
-        if (bottler != null)
-        {
-            bottler.Shoot();
-            return; // Don't destroy the item if it's a ketchup bottle
-        }
+        // KetchupBottlerController bottler = GetComponent<KetchupBottlerController>();
+        // if (bottler != null)
+        // {
+        //     bottler.Shoot();
+        //     return; // Don't destroy the item if it's a ketchup bottle
+        // }
         
         // Only destroy if it's not a special item with its own controller
-        Destroy(gameObject);
+        // Destroy(gameObject);
     }
 
     

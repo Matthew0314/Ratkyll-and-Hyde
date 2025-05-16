@@ -30,6 +30,7 @@ public class FoodSpawnManager : MonoBehaviour
 
 
         GameObject spawned = Instantiate(prefab, chosenPoint.position, Quaternion.identity);
+        spawned.transform.localScale *= 2f;
         activeFood[chosenPoint] = spawned;
 
 
