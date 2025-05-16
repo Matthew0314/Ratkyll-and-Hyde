@@ -1,6 +1,8 @@
-
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections;
+using UnityEngine.UI;
+
 
 public class PlayerController : MonoBehaviour
 {
@@ -42,6 +44,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] AudioClip swipeClip;
 
     [SerializeField] Animator animator;
+
+    [SerializeField] GameObject mayoSplatter;
 
     void Start()
     {
@@ -363,6 +367,75 @@ public class PlayerController : MonoBehaviour
     }
 
     private void RemoveInvinsibility() => invinsible = false;
+
+    public void EnableMayoSplatter() {
+        if (!mayoSplatter.activeSelf)
+        {
+            ResetChildImageAlphas(mayoSplatter);
+            mayoSplatter.SetActive(true);
+            StartCoroutine(FadeAllChildImagesAndDisable(mayoSplatter, 1f));
+        }
+
+
+    }
+    private void ResetChildImageAlphas(GameObject parentObj)
+    {
+        Image[] images = parentObj.GetComponentsInChildren<Image>(true);
+        foreach (var image in images)
+        {
+            Color c = image.color;
+            c.a = 1f;
+            image.color = c;
+        }
+    }
+
+
+
+    private IEnumerator FadeAllChildImagesAndDisable(GameObject parentObj, float duration)
+    {
+        yield return new WaitForSeconds(7f);
+
+        // Get all Image components in children (including inactive ones if needed)
+        Image[] images = parentObj.GetComponentsInChildren<Image>(true);
+        if (images.Length == 0)
+        {
+            Debug.LogWarning("No Image components found in mayo splatter children.");
+            yield break;
+        }
+
+        // Record start and end colors
+        Color[] startColors = new Color[images.Length];
+        for (int i = 0; i < images.Length; i++)
+        {
+            startColors[i] = images[i].color;
+        }
+
+        float elapsed = 0f;
+        while (elapsed < duration)
+        {
+            float t = elapsed / duration;
+            for (int i = 0; i < images.Length; i++)
+            {
+                Color c = Color.Lerp(startColors[i], new Color(startColors[i].r, startColors[i].g, startColors[i].b, 0f), t);
+                images[i].color = c;
+            }
+
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        // Set final alpha to 0
+        foreach (var image in images)
+        {
+            Color finalColor = image.color;
+            finalColor.a = 0f;
+            image.color = finalColor;
+        }
+
+        // Disable parent GameObject
+        parentObj.SetActive(false);
+    }
+
 
 
 
