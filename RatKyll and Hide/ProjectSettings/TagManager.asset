@@ -9,6 +9,7 @@ TagManager:
   - MusicPlayer
   - Floor
   - Surface
+  - Mustard
   layers:
   - Default
   - TransparentFX

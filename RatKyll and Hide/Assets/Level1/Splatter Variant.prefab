@@ -12,6 +12,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Splatter Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 3813605723183369485, guid: 0f73fbc4c45dc604cb730bbbc04e08e2, type: 3}
+      propertyPath: m_TagString
+      value: Mustard
+      objectReference: {fileID: 0}
+    - target: {fileID: 7225098580408226272, guid: 0f73fbc4c45dc604cb730bbbc04e08e2, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7225098580408226272, guid: 0f73fbc4c45dc604cb730bbbc04e08e2, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7225098580408226272, guid: 0f73fbc4c45dc604cb730bbbc04e08e2, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 7225098580408226272, guid: 0f73fbc4c45dc604cb730bbbc04e08e2, type: 3}
       propertyPath: m_LocalPosition.x
       value: -16.112

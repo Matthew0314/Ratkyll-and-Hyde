@@ -176,6 +176,8 @@ public class PotGameManager : MonoBehaviour, IGameManager
             menuBtnGroup.alpha = 1;
             menuBtnGroup.interactable = true;
         }
+
+        UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(restartButton.gameObject);
     }
     
     private void DisablePlayerControls() {

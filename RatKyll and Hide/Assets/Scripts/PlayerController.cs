@@ -35,6 +35,7 @@ public class PlayerController : MonoBehaviour
     private bool invinsible = false;
     private bool isJumping = false;
     private bool isLanding = false;
+    private bool slowDown = false;
 
 
     [SerializeField] AudioClip jumpClip;
@@ -211,6 +212,8 @@ public class PlayerController : MonoBehaviour
 
             float currentSpeed = isSprinting ? sprintSpeed : walkSpeed;
 
+            if (slowDown) currentSpeed /= 2;
+
             if (isSprinting)
             {
                 animator.SetFloat("Speed", 1f);
@@ -314,7 +317,11 @@ public class PlayerController : MonoBehaviour
                 Quaternion targetRotation = Quaternion.LookRotation(-climbNormal, Vector3.up);
                 transform.rotation = targetRotation;
             }
+        } else if (other.CompareTag("Mustard")) {
+            slowDown = true;
+            CancelInvoke("ReturnSpeedNormal");
         }
+
     }
 
     void OnTriggerExit(Collider other)
@@ -323,8 +330,12 @@ public class PlayerController : MonoBehaviour
         {
             isClimbing = false;
             rb.useGravity = true;
+        } else if (other.CompareTag("Mustard")) {
+            Invoke("ReturnSpeedNormal", 7f);
         }
     }
+
+    private bool ReturnSpeedNormal() => slowDown = false;
 
     // Checks if the player is on the ground using a raycast
     private bool IsGrounded()
@@ -352,6 +363,8 @@ public class PlayerController : MonoBehaviour
     }
 
     private void RemoveInvinsibility() => invinsible = false;
+
+
 
     // private void HandleJump() {
     //     if (isClimbing) {

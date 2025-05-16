@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Mustard : MonoBehaviour, IPickUpItem
@@ -10,6 +12,7 @@ public class Mustard : MonoBehaviour, IPickUpItem
     public int Points => points;
     private int points = -1;
     private AudioSource audioSource;
+    private List<GameObject> splatters = new List<GameObject>();
 
     void Start()
     {
@@ -45,6 +48,7 @@ public class Mustard : MonoBehaviour, IPickUpItem
         if (mustardProjectilePrefab != null) {
             // Instantiate the projectile at this object's position and rotation
             GameObject projectile = Instantiate(mustardProjectilePrefab, projectileSpawn.transform.position, transform.rotation);
+            projectile.GetComponent<MustardProjectile>().AddOriginBottle(this.gameObject);
 
             // Add force to the projectile
             Rigidbody rb = projectile.GetComponent<Rigidbody>();
@@ -68,5 +72,15 @@ public class Mustard : MonoBehaviour, IPickUpItem
         // foodSpawnManager.NotifyFoodDestroyed(SpawnPoint);
         Destroy(this.gameObject);
     }
+
+    public void AddSplatter(GameObject newSplat) {
+        splatters.Add(newSplat);
+
+        if (splatters.Count >= 4) {
+            Destroy(splatters[0]);
+            splatters.RemoveAt(0);
+        }
+    }
+
 
 }

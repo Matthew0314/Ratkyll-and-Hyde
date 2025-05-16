@@ -16,6 +16,22 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3813605723183369485, guid: 0f73fbc4c45dc604cb730bbbc04e08e2, type: 3}
+      propertyPath: m_TagString
+      value: Mustard
+      objectReference: {fileID: 0}
+    - target: {fileID: 7225098580408226272, guid: 0f73fbc4c45dc604cb730bbbc04e08e2, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7225098580408226272, guid: 0f73fbc4c45dc604cb730bbbc04e08e2, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7225098580408226272, guid: 0f73fbc4c45dc604cb730bbbc04e08e2, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 7225098580408226272, guid: 0f73fbc4c45dc604cb730bbbc04e08e2, type: 3}
       propertyPath: m_LocalPosition.x
       value: -16.112
@@ -112,7 +128,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
