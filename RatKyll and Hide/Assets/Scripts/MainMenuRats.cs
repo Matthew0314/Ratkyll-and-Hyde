@@ -47,29 +47,53 @@ public class MainMenuRats : MonoBehaviour
     }
 
     private void RatAni1() {
-        GameObject newRat = Instantiate(rat1);
+        int newIndex = Random.Range(0, 2);
+        GameObject newRat;
+        if (newIndex == 1) {
+            newRat = Instantiate(rat1);
+        }
+        else {
+            newRat = Instantiate(rat2);
+        }
         StartCoroutine(MoveOverTime(newRat, spawn1.transform.position, new Vector3(7, -9, -30), 4f));
     }
 
     private void RatAni2() {
         // Instantiate rat1 with that rotation
         Quaternion yRotation = Quaternion.Euler(0f, 325f, 0f);
-        GameObject newRat2 = Instantiate(rat2, Vector3.zero, yRotation);
-        StartCoroutine(MoveOverTime(newRat2, spawn2.transform.position, new Vector3(20f, -9, -30f), 4f));
+        GameObject newRat;
+        int newIndex = Random.Range(0, 2);
+        if (newIndex == 1) newRat = Instantiate(rat1, Vector3.zero, yRotation);
+        else newRat = Instantiate(rat2, Vector3.zero, yRotation);
+        // GameObject newRat2 = Instantiate(rat2, Vector3.zero, yRotation);
+        StartCoroutine(MoveOverTime(newRat, spawn2.transform.position, new Vector3(20f, -9, -30f), 4f));
     }
 
     private void RatAni3() {
         Quaternion yRotation = Quaternion.Euler(0f, 180f, 0f);
-        GameObject newRat3 = Instantiate(rat2, Vector3.zero, yRotation);
-        StartCoroutine(MoveOverTime(newRat3, spawn3.transform.position, new Vector3(7, -9, 15), 4f));
 
-        GameObject newRat = Instantiate(rat1);
-        StartCoroutine(MoveOverTime(newRat, spawn1.transform.position, new Vector3(7, -9, -30), 4f));
+        GameObject newRat;
+        GameObject newRat2;
+        int newIndex = Random.Range(0, 2);
+        if (newIndex == 1) {
+            newRat = Instantiate(rat1, Vector3.zero, yRotation);;
+            newRat2 = Instantiate(rat2);
+        } else {
+            newRat = Instantiate(rat2, Vector3.zero, yRotation);;
+            newRat2 = Instantiate(rat1);
+        }
+
+        StartCoroutine(MoveOverTime(newRat, spawn3.transform.position, new Vector3(7, -9, 15), 4f));
+
+        StartCoroutine(MoveOverTime(newRat2, spawn1.transform.position, new Vector3(7, -9, -30), 4f));
     }
 
     private void RatAni4() {
-        GameObject newRat4 = Instantiate(rat2);
-        StartCoroutine(MoveOverTime(newRat4, spawn1.transform.position,new Vector3(7, -9, -10), new Vector3(7, -9, -30), 2f, 2f));
+        GameObject newRat;
+        int newIndex = Random.Range(0, 2);
+        if (newIndex == 1) newRat = Instantiate(rat1);
+        else newRat = Instantiate(rat2);
+        StartCoroutine(MoveOverTime(newRat, spawn1.transform.position,new Vector3(7, -9, -10), new Vector3(7, -9, -30), 2f, 2f));
     }
 
     private IEnumerator MoveOverTime(GameObject obj, Vector3 start, Vector3 end, float duration)
