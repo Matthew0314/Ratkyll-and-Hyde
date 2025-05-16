@@ -9,7 +9,7 @@ public class PotGameManager : MonoBehaviour, IGameManager
     private int player1Score = 0;
     private int player2Score = 0;
     private bool gameOver = true;
-    private float gameDuration = 5f; // Five minutes
+    private float gameDuration = 300f; // Five minutes
     private float timer;
     [SerializeField] TextMeshProUGUI timerText;
     [SerializeField] TextMeshProUGUI player1ScoreText;
