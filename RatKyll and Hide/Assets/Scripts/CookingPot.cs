@@ -74,6 +74,10 @@ public class CookingPot : MonoBehaviour
             }
 
             IPickUpItem pickUp = collider.gameObject.GetComponent<IPickUpItem>();
+            if (pickUp.Points <= 0) {
+                pickUp.DestroyItem();
+                return;
+            }
             if (pickUp.LastPlayer != null)
             {
                 IPickUpItem item = collider.gameObject.GetComponent<IPickUpItem>();

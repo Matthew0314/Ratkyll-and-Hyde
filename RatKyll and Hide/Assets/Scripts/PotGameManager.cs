@@ -9,7 +9,7 @@ public class PotGameManager : MonoBehaviour, IGameManager
     private int player1Score = 0;
     private int player2Score = 0;
     private bool gameOver = true;
-    private float gameDuration = 300f; // Five minutes
+    private float gameDuration = 5f; // Five minutes
     private float timer;
     [SerializeField] TextMeshProUGUI timerText;
     [SerializeField] TextMeshProUGUI player1ScoreText;
@@ -32,7 +32,17 @@ public class PotGameManager : MonoBehaviour, IGameManager
     public TextMeshProUGUI countdownText;
     public float expandDuration = 0.5f;
     public float shrinkDuration = 0.2f;
+    [SerializeField] SingleCanvasSplitScreenPointer singleCanvasSplitScreenPointer;
+    [SerializeField] GameObject arrow1;
+    [SerializeField] GameObject arrow2;
 
+    public Image player1Bar;
+    public Image player2Bar;
+    public TextMeshProUGUI resultText;
+    private int totalPoints;
+    public GameObject gameOverBox;
+
+    public float fillDuration = 1.5f;
     void Start() {
         timer = gameDuration;
         player1ScoreText.text = player1Score.ToString();
@@ -64,6 +74,7 @@ public class PotGameManager : MonoBehaviour, IGameManager
             timer = 0;
             gameOver = true;
             StartGameOverSequence();
+            // ShowGameOver();
         }
 
         timerText.text = Mathf.CeilToInt(timer).ToString();
@@ -252,7 +263,71 @@ public class PotGameManager : MonoBehaviour, IGameManager
 
         // Hide text at the end
         countdownText.text = "";
+        arrow1.gameObject.SetActive(true);
+        arrow2.gameObject.SetActive(true);
+        timerText.gameObject.SetActive(true);
+        player1ScoreText.gameObject.SetActive(true);
+        player2ScoreText.gameObject.SetActive(true);
+        singleCanvasSplitScreenPointer.enabled = true;
+        gameOver = false;
     }
 
     public bool GameOver => gameOver;
+
+    public void ShowGameOver()
+    {
+        gameOverBox.SetActive(true);
+
+        
+        totalPoints = player1Score + player2Score;
+
+        // Reset bar sizes
+        player1Bar.rectTransform.sizeDelta = new Vector2(0, player1Bar.rectTransform.sizeDelta.y);
+        player2Bar.rectTransform.sizeDelta = new Vector2(0, player2Bar.rectTransform.sizeDelta.y);
+
+        resultText.text = "";
+
+        StartCoroutine(FillBarsCoroutine());
+    }
+
+    private IEnumerator FillBarsCoroutine()
+    {
+        RectTransform barContainer = player1Bar.transform.parent.GetComponent<RectTransform>();
+        float barWidth = barContainer.rect.width;
+
+        float target1 = (player1Score / totalPoints) * barWidth;
+        float target2 = (player2Score / totalPoints) * barWidth;
+
+        float elapsed = 0f;
+
+        while (elapsed < fillDuration)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / fillDuration);
+
+            float current1 = Mathf.Lerp(0, target1, t);
+            float current2 = Mathf.Lerp(0, target2, t);
+
+            player1Bar.rectTransform.sizeDelta = new Vector2(current1, player1Bar.rectTransform.sizeDelta.y);
+            player2Bar.rectTransform.sizeDelta = new Vector2(current2, player2Bar.rectTransform.sizeDelta.y);
+
+            yield return null;
+        }
+
+        // Ensure final sizes are exact
+        player1Bar.rectTransform.sizeDelta = new Vector2(target1, player1Bar.rectTransform.sizeDelta.y);
+        player2Bar.rectTransform.sizeDelta = new Vector2(target2, player2Bar.rectTransform.sizeDelta.y);
+
+        ShowResult();
+    }
+
+    private void ShowResult()
+    {
+        if (player1Score > player2Score)
+            resultText.text = "Player 1 Wins!";
+        else if (player2Score > player1Score)
+            resultText.text = "Player 2 Wins!";
+        else
+            resultText.text = "It's a Tie!";
+    }
 }
