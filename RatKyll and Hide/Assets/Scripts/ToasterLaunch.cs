@@ -12,6 +12,8 @@ public class ToasterLaunch : MonoBehaviour
 
     private HashSet<Rigidbody> recentlyToasted = new HashSet<Rigidbody>();
     private BoxCollider toasterCollider;
+    private AudioSource audioSource;
+
 
     private void Awake()
     {
@@ -20,6 +22,7 @@ public class ToasterLaunch : MonoBehaviour
         {
             Debug.LogWarning("Toaster must have a BoxCollider set as Trigger.");
         }
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -38,6 +41,10 @@ public class ToasterLaunch : MonoBehaviour
     {
         recentlyToasted.Add(playerRb);
 
+        if (!audioSource.isPlaying)
+        {
+            audioSource.Play();
+        }
         // Move player to center of toaster
         Vector3 centerWorldPosition = toasterCollider.transform.TransformPoint(toasterCollider.center);
         playerRb.transform.position = centerWorldPosition;

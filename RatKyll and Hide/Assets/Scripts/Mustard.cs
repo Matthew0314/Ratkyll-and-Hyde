@@ -1,9 +1,8 @@
 using UnityEngine;
 
-public class Ketchup : MonoBehaviour, IPickUpItem
+public class Mustard : MonoBehaviour, IPickUpItem
 {
-
-    public GameObject ketchupProjectilePrefab;
+    public GameObject mustardProjectilePrefab;
     [SerializeField] GameObject projectileSpawn;
     public GameObject GameObject => gameObject;
     public PlayerController LastPlayer { get; set; }
@@ -43,9 +42,9 @@ public class Ketchup : MonoBehaviour, IPickUpItem
     }
 
     public void UseItem() {
-        if (ketchupProjectilePrefab != null) {
+        if (mustardProjectilePrefab != null) {
             // Instantiate the projectile at this object's position and rotation
-            GameObject projectile = Instantiate(ketchupProjectilePrefab, projectileSpawn.transform.position, transform.rotation);
+            GameObject projectile = Instantiate(mustardProjectilePrefab, projectileSpawn.transform.position, transform.rotation);
 
             // Add force to the projectile
             Rigidbody rb = projectile.GetComponent<Rigidbody>();
@@ -58,7 +57,7 @@ public class Ketchup : MonoBehaviour, IPickUpItem
             audioSource.Play();
             Debug.Log($"{gameObject.name} used: Shot ketchup!");
         } else {
-            Debug.LogWarning("Ketchup projectile prefab is not assigned!");
+            Debug.LogWarning("Mustard projectile prefab is not assigned!");
         }
 
 
