@@ -151,6 +151,9 @@ public class CameraControllerMenuTrans : MonoBehaviour
     private PlayerInput playerInput;
     private InputAction anyButtonAction;
 
+    [SerializeField]  Animator animator; // Drag in the Animator component
+    [SerializeField] RuntimeAnimatorController controllerToAssign; 
+
     void Awake()
     {
         // Set up Input System
@@ -221,6 +224,7 @@ public class CameraControllerMenuTrans : MonoBehaviour
         if (!isTransitioning && Time.time - lastInputTime > inputDebounceTime)
         {
             lastInputTime = Time.time;
+            Debug.LogError("AHHHHHHH");
             StartTransition();
         }
     }
@@ -258,6 +262,9 @@ public class CameraControllerMenuTrans : MonoBehaviour
             Debug.LogError("Camera references not set!");
             return;
         }
+
+            animator.runtimeAnimatorController = controllerToAssign;
+
         
         isTransitioning = true;
         transitionTimer = 0f;
@@ -321,7 +328,8 @@ public class CameraControllerMenuTrans : MonoBehaviour
                 transitionText.color = finalColor;
             }
             
-            SceneManager.LoadScene("gameplaySelect");
+            // SceneManager.LoadScene("gameplaySelect");
+            // SceneManager.LoadScene("LevelOne");
         }
     }
     
