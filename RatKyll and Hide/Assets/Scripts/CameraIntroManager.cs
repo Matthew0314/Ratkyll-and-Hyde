@@ -12,8 +12,12 @@ public class CameraIntroManager : MonoBehaviour
     public Transform cam2TargetPosition;
     public Transform cam3TargetPosition;
 
+    public GameObject mainCam;
+
     public GameObject playerCam1;
     public GameObject playerCam2;
+
+    [SerializeField] PotGameManager potGameManager;
 
     public float moveDuration = 3f;
 
@@ -24,21 +28,29 @@ public class CameraIntroManager : MonoBehaviour
 
     IEnumerator PlayIntroSequence()
     {
-        yield return MoveCameraTo(panCam1, cam1TargetPosition.position);
-        yield return new WaitForSeconds(1f);
+        yield return MoveCameraTo(panCam1, cam1TargetPosition.position, cam1TargetPosition.rotation);
+        yield return new WaitForSeconds(0.1f);
 
-        yield return MoveCameraTo(panCam2, cam2TargetPosition.position);
-        yield return new WaitForSeconds(1f);
+        yield return MoveCameraTo(panCam2, cam2TargetPosition.position, cam2TargetPosition.rotation);
+        yield return new WaitForSeconds(0.1f);
 
-        yield return MoveCameraTo(panCam3, cam3TargetPosition.position);
-        yield return new WaitForSeconds(1f);
+        yield return MoveCameraTo(panCam3, cam3TargetPosition.position, cam3TargetPosition.rotation);
+        yield return new WaitForSeconds(0.1f);
 
-        // StartSplitScreen();
+        mainCam.SetActive(false);
+        panCam1.gameObject.SetActive(false);
+        panCam2.gameObject.SetActive(false);
+        panCam3.gameObject.SetActive(false);
+
+        potGameManager.StartGame();
     }
 
-    IEnumerator MoveCameraTo(CinemachineVirtualCamera vcam, Vector3 targetPos)
+
+    IEnumerator MoveCameraTo(CinemachineVirtualCamera vcam, Vector3 targetPos, Quaternion targetRot)
     {
-        // Raise its priority
+        Debug.LogError("MOVING CAMERA WITH ROTATION");
+
+        // Reset all priorities
         panCam1.Priority = 0;
         panCam2.Priority = 0;
         panCam3.Priority = 0;
@@ -46,15 +58,22 @@ public class CameraIntroManager : MonoBehaviour
 
         Transform camTransform = vcam.transform;
         Vector3 startPos = camTransform.position;
+        Quaternion startRot = camTransform.rotation;
+
         float elapsed = 0f;
 
         while (elapsed < moveDuration)
         {
-            camTransform.position = Vector3.Lerp(startPos, targetPos, elapsed / moveDuration);
+            float t = elapsed / moveDuration;
+            camTransform.position = Vector3.Lerp(startPos, targetPos, t);
+            camTransform.rotation = Quaternion.Slerp(startRot, targetRot, t);
+
             elapsed += Time.deltaTime;
             yield return null;
         }
 
         camTransform.position = targetPos;
+        camTransform.rotation = targetRot;
     }
+
 }

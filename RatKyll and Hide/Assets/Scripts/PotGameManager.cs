@@ -8,7 +8,7 @@ public class PotGameManager : MonoBehaviour, IGameManager
 {
     private int player1Score = 0;
     private int player2Score = 0;
-    private bool gameOver;
+    private bool gameOver = true;
     private float gameDuration = 300f; // Five minutes
     private float timer;
     [SerializeField] TextMeshProUGUI timerText;
@@ -28,6 +28,10 @@ public class PotGameManager : MonoBehaviour, IGameManager
     [SerializeField] float winnerFadeInTime = 1.0f;
     [SerializeField] float delayBeforeButtonsReveal = 2.0f;
     [SerializeField] float buttonsFadeInTime = 1.0f;
+
+    public TextMeshProUGUI countdownText;
+    public float expandDuration = 0.5f;
+    public float shrinkDuration = 0.2f;
 
     void Start() {
         timer = gameDuration;
@@ -204,6 +208,50 @@ public class PotGameManager : MonoBehaviour, IGameManager
         // Load the main menu scene
         // Replace "MainMenu" with your actual main menu scene name
         SceneManager.LoadScene("mainMenu");
+    }
+
+    public void StartGame() {
+        StartCoroutine(CountdownSequence());
+    }
+
+    private IEnumerator CountdownSequence()
+    {
+        string[] countdownValues = { "3", "2", "1", "Begin!" };
+        countdownText.gameObject.SetActive(true);
+
+        foreach (string value in countdownValues)
+        {
+            countdownText.text = value;
+            countdownText.transform.localScale = Vector3.zero;
+
+            // Expand
+            float t = 0f;
+            while (t < expandDuration)
+            {
+                t += Time.deltaTime;
+                float scale = Mathf.Lerp(0f, 1f, t / expandDuration);
+                countdownText.transform.localScale = Vector3.one * scale;
+                yield return null;
+            }
+
+            // Hold briefly
+            yield return new WaitForSeconds(0.3f);
+
+            // Shrink
+            t = 0f;
+            while (t < shrinkDuration)
+            {
+                t += Time.deltaTime;
+                float scale = Mathf.Lerp(1f, 0f, t / shrinkDuration);
+                countdownText.transform.localScale = Vector3.one * scale;
+                yield return null;
+            }
+
+            yield return null;
+        }
+
+        // Hide text at the end
+        countdownText.text = "";
     }
 
     public bool GameOver => gameOver;
