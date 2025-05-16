@@ -22,6 +22,9 @@ public class PlayerController : MonoBehaviour
     private Transform cameraTransform;
 
     private IPickUpItem _heldItem;
+    [SerializeField] private AudioSource walkingAudioSource;
+    [SerializeField] private AudioClip walkingSound;
+    private bool isWalkingSoundPlaying = false;
 
     // Used for throwing the item
     private float minThrowForce = 5f;
@@ -88,6 +91,13 @@ public class PlayerController : MonoBehaviour
                 // playerInput.SwitchCurrentControlScheme("KeyboardWASD");
             }
         }
+        if (walkingAudioSource == null)
+        {
+            walkingAudioSource = gameObject.AddComponent<AudioSource>();
+            walkingAudioSource.playOnAwake = false;
+            walkingAudioSource.loop = true;
+            walkingAudioSource.volume = 1f;
+        }
     }
 
     void Update()
@@ -103,10 +113,12 @@ public class PlayerController : MonoBehaviour
         if (isClimbing)
         {
             ClimbMovement();
+            StopWalkingSound();
         }
         else
         {
             MoveCharacter();
+            UpdateWalkingSound();
         }
 
 
@@ -145,12 +157,14 @@ public class PlayerController : MonoBehaviour
         {
             animator.SetBool("IsJumping", false);
         }
-        if (animator.GetBool("IsJumping") && rb.linearVelocity.y < 0) {
+        if (animator.GetBool("IsJumping") && rb.linearVelocity.y < 0)
+        {
             animator.SetBool("IsFalling", true);
         }
-        
+
         // Falling to landing transition
-        if (animator.GetBool("IsFalling") && IsGrounded()) {
+        if (animator.GetBool("IsFalling") && IsGrounded())
+        {
             animator.SetBool("IsJumping", false);
             animator.SetBool("IsFalling", false);
             animator.SetTrigger("Land");
@@ -321,7 +335,9 @@ public class PlayerController : MonoBehaviour
                 Quaternion targetRotation = Quaternion.LookRotation(-climbNormal, Vector3.up);
                 transform.rotation = targetRotation;
             }
-        } else if (other.CompareTag("Mustard")) {
+        }
+        else if (other.CompareTag("Mustard"))
+        {
             slowDown = true;
             CancelInvoke("ReturnSpeedNormal");
         }
@@ -334,7 +350,9 @@ public class PlayerController : MonoBehaviour
         {
             isClimbing = false;
             rb.useGravity = true;
-        } else if (other.CompareTag("Mustard")) {
+        }
+        else if (other.CompareTag("Mustard"))
+        {
             Invoke("ReturnSpeedNormal", 7f);
         }
     }
@@ -368,7 +386,8 @@ public class PlayerController : MonoBehaviour
 
     private void RemoveInvinsibility() => invinsible = false;
 
-    public void EnableMayoSplatter() {
+    public void EnableMayoSplatter()
+    {
         if (!mayoSplatter.activeSelf)
         {
             ResetChildImageAlphas(mayoSplatter);
@@ -465,30 +484,36 @@ public class PlayerController : MonoBehaviour
     // }
     private void HandleJump()
     {
-            if (isClimbing) {
-                isClimbing = false;
-                rb.useGravity = true;
-                Vector3 forceDirection = -transform.forward;
-                rb.AddForce(forceDirection * jumpForce, ForceMode.Impulse);
-                
-                // Start jump animation
-                animator.SetTrigger("Jump");
-                animator.SetBool("IsJumping", true);
-                animator.SetBool("IsFalling", false);
-                
-                if (!audioSource.isPlaying) {
-                    audioSource.clip = jumpClip;
-                    audioSource.Play();
-                }
-         } else if (IsGrounded()) {
-            rb.linearVelocity = new Vector3(rb.linearVelocity.x, jumpForce, rb.linearVelocity.z);
-            
+        if (isClimbing)
+        {
+            isClimbing = false;
+            rb.useGravity = true;
+            Vector3 forceDirection = -transform.forward;
+            rb.AddForce(forceDirection * jumpForce, ForceMode.Impulse);
+
             // Start jump animation
             animator.SetTrigger("Jump");
             animator.SetBool("IsJumping", true);
             animator.SetBool("IsFalling", false);
-            
-            if (!audioSource.isPlaying) {
+
+            if (!audioSource.isPlaying)
+            {
+                audioSource.clip = jumpClip;
+                audioSource.Play();
+            }
+        }
+        else if (IsGrounded())
+        {
+            rb.linearVelocity = new Vector3(rb.linearVelocity.x, jumpForce, rb.linearVelocity.z);
+
+            // Start jump animation
+            animator.SetTrigger("Jump");
+            animator.SetBool("IsJumping", true);
+            animator.SetBool("IsFalling", false);
+            StopWalkingSound();
+
+            if (!audioSource.isPlaying)
+            {
                 audioSource.clip = jumpClip;
                 audioSource.Play();
             }
@@ -501,8 +526,9 @@ public class PlayerController : MonoBehaviour
 
     // Used for movement
     public void OnMove(InputAction.CallbackContext ctx) => movementInput = ctx.ReadValue<Vector2>();
-    private void ResetLandingState() {
-    isLanding = false;
+    private void ResetLandingState()
+    {
+        isLanding = false;
     }
 
     // Used for jumping
@@ -527,4 +553,41 @@ public class PlayerController : MonoBehaviour
 
 
     // }
+    private void StartWalkingSound()
+    {
+        if (walkingSound != null && !isWalkingSoundPlaying)
+        {
+            walkingAudioSource.clip = walkingSound;
+            walkingAudioSource.Play();
+            isWalkingSoundPlaying = true;
+        }
+    }
+
+    private void StopWalkingSound()
+    {
+        if (isWalkingSoundPlaying)
+        {
+            walkingAudioSource.Stop();
+            isWalkingSoundPlaying = false;
+        }
+    }
+    
+    private void UpdateWalkingSound()
+    {
+        bool shouldPlayWalkingSound = IsGrounded() && movementInput.sqrMagnitude > 0.01f;
+        
+        if (shouldPlayWalkingSound && !isWalkingSoundPlaying)
+        {
+            StartWalkingSound();
+        }
+        else if (!shouldPlayWalkingSound && isWalkingSoundPlaying)
+        {
+            StopWalkingSound();
+        }
+        
+        if (isWalkingSoundPlaying)
+        {
+            walkingAudioSource.pitch = isSprinting ? 1.2f : 1.0f;
+        }
+    }
 }

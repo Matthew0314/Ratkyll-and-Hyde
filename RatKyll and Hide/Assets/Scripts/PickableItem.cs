@@ -140,7 +140,6 @@ public class PickableItem : MonoBehaviour, IPickUpItem
     }
 
     public void DestroyItem() {
-
         foodSpawnManager.NotifyFoodDestroyed(SpawnPoint);
         Destroy(this.gameObject);
     }
