@@ -1,115 +1,3 @@
-// using UnityEngine;
-// using Unity.Cinemachine;
-// using UnityEngine.SceneManagement;
-// using UnityEngine.UI;
-// using TMPro;
-// using System.Runtime.CompilerServices;
-
-
-// public class CameraControllerMenuTrans : MonoBehaviour
-// {
-//     [Header("Camera References")]
-//     [SerializeField] private CinemachineVirtualCamera startingCamera;
-//     [SerializeField] private CinemachineVirtualCamera targetCamera;
-//     [SerializeField] private Image transitionImage;
-//     [SerializeField] private TMP_Text transitionText;
-//     [SerializeField] private float imageFadeOutSpeed = 2.0f; // How quickly the image fades out relative to the transition
-    
-//     [SerializeField] private float transitionDuration = 2.0f;
-//     [SerializeField] private AnimationCurve transitionCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
-    
-    
-//     private float transitionTimer = 0f;
-//     private bool isTransitioning = false;
-//     private CinemachineBrain cinemachineBrain;
-//     private Color originalImageColor;
-
-//     void Start()
-//     {
-//         // Ensure starting camera has higher priority initially
-//         if (startingCamera != null && targetCamera != null)
-//         {
-//             startingCamera.Priority = 20;
-//             targetCamera.Priority = 10;
-//         }
-
-//         // Get reference to the CinemachineBrain component
-//         cinemachineBrain = Camera.main.GetComponent<CinemachineBrain>();
-
-//         if (cinemachineBrain == null)
-//         {
-//             Debug.LogError("No CinemachineBrain found on Main Camera!");
-//         }
-
-//         if (transitionImage != null)
-//         {
-//             originalImageColor = transitionImage.color;
-//         }
-//     }
-    
-//     void Update()
-//     {
-//         // Check for 'Y' key press
-//         if (Input.GetKeyDown(KeyCode.Y) && !isTransitioning)
-//         {
-//             StartTransition();
-//         }
-        
-//         // Handle transition if in progress
-//         if (isTransitioning)
-//         {
-//             HandleTransition();
-//         }
-//     }
-    
-//     private void StartTransition()
-//     {
-//         if (startingCamera == null || targetCamera == null)
-//         {
-//             Debug.LogError("Camera references not set!");
-//             return;
-//         }
-        
-//         isTransitioning = true;
-//         transitionTimer = 0f;
-        
-//         // Swap priorities to trigger the transition
-//         startingCamera.Priority = 10;
-//         targetCamera.Priority = 20;
-//     }
-    
-//     private void HandleTransition()
-//     {
-//         transitionTimer += Time.deltaTime;
-//         float normalizedTime = transitionTimer / transitionDuration;
-        
-//         // Apply easing curve
-//         float curveValue = transitionCurve.Evaluate(normalizedTime);
-        
-//         if (transitionImage != null)
-//         {
-//             // Calculate fade value - apply the fade out speed modifier
-//             float fadeAlpha = Mathf.Lerp(originalImageColor.a, 0f, normalizedTime * imageFadeOutSpeed);
-            
-//             // Update the image color, preserving RGB but changing alpha
-//             Color newColor = originalImageColor;
-//             newColor.a = fadeAlpha;
-//             transitionImage.color = newColor;
-//         }
-        
-//         if (normalizedTime >= 1f)
-//         {
-//             isTransitioning = false;
-//             if (transitionImage != null)
-//             {
-//                 Color finalColor = originalImageColor;
-//                 finalColor.a = 0f;
-//                 transitionImage.color = finalColor;
-//             }
-//             SceneManager.LoadScene("gameplaySelect");
-//         }
-//     }
-// }
 
 using UnityEngine;
 using Unity.Cinemachine;
@@ -151,8 +39,11 @@ public class CameraControllerMenuTrans : MonoBehaviour
     private PlayerInput playerInput;
     private InputAction anyButtonAction;
 
-    [SerializeField]  Animator animator; // Drag in the Animator component
+    [SerializeField]  Animator animator; 
     [SerializeField] RuntimeAnimatorController controllerToAssign; 
+    [SerializeField] private GameObject objectToReveal;
+    private bool objectRevealed = false;
+[SerializeField] private bool revealObjectAfterTransition = true;
 
     void Awake()
     {
@@ -224,8 +115,17 @@ public class CameraControllerMenuTrans : MonoBehaviour
         if (!isTransitioning && Time.time - lastInputTime > inputDebounceTime)
         {
             lastInputTime = Time.time;
-            Debug.LogError("AHHHHHHH");
-            StartTransition();
+            
+            if (objectRevealed)
+            {
+                // If object has been revealed, load the level
+                SceneManager.LoadScene("LevelOne");
+            }
+            else
+            {
+                Debug.LogError("AHHHHHHH");
+                StartTransition();
+            }
         }
     }
     
@@ -234,7 +134,14 @@ public class CameraControllerMenuTrans : MonoBehaviour
         // Legacy input system option - still check for 'Y' key if enabled
         if (stillUseYKey && Input.GetKeyDown(KeyCode.Y) && !isTransitioning)
         {
-            StartTransition();
+            if (objectRevealed)
+            {
+                SceneManager.LoadScene("LevelOne");
+            }
+            else
+            {
+                StartTransition();
+            }
         }
         
         // Also check for any mouse click or touch input using legacy input system
@@ -244,7 +151,14 @@ public class CameraControllerMenuTrans : MonoBehaviour
                 Input.touchCount > 0 && Input.GetTouch(0).phase == UnityEngine.TouchPhase.Began)
             {
                 lastInputTime = Time.time;
-                StartTransition();
+                if (objectRevealed)
+                {
+                    SceneManager.LoadScene("LevelOne");
+                }
+                else
+                {
+                    StartTransition();
+                }
             }
         }
         
@@ -327,9 +241,12 @@ public class CameraControllerMenuTrans : MonoBehaviour
                 finalColor.a = 0f;
                 transitionText.color = finalColor;
             }
-            
-            // SceneManager.LoadScene("gameplaySelect");
-            // SceneManager.LoadScene("LevelOne");
+
+            if (objectToReveal != null && revealObjectAfterTransition)
+            {
+                objectToReveal.SetActive(true);
+                objectRevealed = true; 
+            }
         }
     }
     
