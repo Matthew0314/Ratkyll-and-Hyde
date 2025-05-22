@@ -1,3 +1,4 @@
+//This file is no longer in use, should get moved to archive
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -7,7 +8,6 @@ public class BackgroundMusic : MonoBehaviour
 
     void Awake()
     {
-        // Singleton pattern to ensure only one music player exists
         if (instance == null)
         {
             instance = this;
