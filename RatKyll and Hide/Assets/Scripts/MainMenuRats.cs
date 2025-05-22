@@ -59,7 +59,6 @@ public class MainMenuRats : MonoBehaviour
     }
 
     private void RatAni2() {
-        // Instantiate rat1 with that rotation
         Quaternion yRotation = Quaternion.Euler(0f, 325f, 0f);
         GameObject newRat;
         int newIndex = Random.Range(0, 2);
@@ -108,7 +107,7 @@ public class MainMenuRats : MonoBehaviour
             yield return null;
         }
 
-        obj.transform.position = end; // Snap to final position
+        obj.transform.position = end; 
         Destroy(obj);
     }
 
@@ -131,7 +130,7 @@ public class MainMenuRats : MonoBehaviour
         Animator animator = obj.GetComponent<Animator>();
         if (animator != null)
         {
-            animator.SetBool("Happy", true); // You need a looping state tied to this parameter
+            animator.SetBool("Happy", true);
         }
 
         yield return new WaitForSeconds(3f);
