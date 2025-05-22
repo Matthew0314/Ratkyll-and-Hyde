@@ -49,7 +49,6 @@ public class ToasterLaunch : MonoBehaviour
         Vector3 centerWorldPosition = toasterCollider.transform.TransformPoint(toasterCollider.center);
         playerRb.transform.position = centerWorldPosition;
 
-        // Freeze player physics
         playerRb.isKinematic = true;
 
         float elapsed = 0f;
