@@ -50,7 +50,6 @@ public class CameraIntroManager : MonoBehaviour
     {
         Debug.LogError("MOVING CAMERA WITH ROTATION");
 
-        // Reset all priorities
         panCam1.Priority = 0;
         panCam2.Priority = 0;
         panCam3.Priority = 0;
