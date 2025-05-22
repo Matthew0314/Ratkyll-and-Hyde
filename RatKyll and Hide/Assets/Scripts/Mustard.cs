@@ -23,7 +23,6 @@ public class Mustard : MonoBehaviour, IPickUpItem
         Debug.Log($"Item {gameObject.name} picked up");
         // isPickedUp = true;
 
-        // Disable physics interactions
         Rigidbody rb = GetComponent<Rigidbody>();
         if (rb != null) rb.isKinematic = true;
 
@@ -46,14 +45,12 @@ public class Mustard : MonoBehaviour, IPickUpItem
 
     public void UseItem() {
         if (mustardProjectilePrefab != null) {
-            // Instantiate the projectile at this object's position and rotation
             GameObject projectile = Instantiate(mustardProjectilePrefab, projectileSpawn.transform.position, transform.rotation);
             projectile.GetComponent<MustardProjectile>().AddOriginBottle(this.gameObject);
 
-            // Add force to the projectile
             Rigidbody rb = projectile.GetComponent<Rigidbody>();
             if (rb != null) {
-                float shootForce = 2000f; // Adjust as needed
+                float shootForce = 2000f;
                 rb.AddForce(transform.up * shootForce);
                
             }
