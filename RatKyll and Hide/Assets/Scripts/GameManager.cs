@@ -1,3 +1,5 @@
+
+//This is an old file that is no longer in use, it should be moved to the archive
 // using UnityEngine;
 
 // public class GameManager : MonoBehaviour, IGameManager {
