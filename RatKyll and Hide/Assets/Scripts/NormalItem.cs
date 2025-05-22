@@ -1,3 +1,5 @@
+//This is an old file that is not in use anymore, it should be moved to the archive
+
 // // using UnityEngine;
 
 // // public class NormalItem : MonoBehaviour, IPickUpItem
