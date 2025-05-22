@@ -12,14 +12,12 @@ public class MustardProjectile : MonoBehaviour
     private void OnCollisionEnter(Collision collision) {
         if (collision.gameObject.CompareTag("Surface"))
         {
-            // Create a position 5 units higher on the Y axis
             Vector3 spawnPosition = new Vector3(
                 transform.position.x, 
                 transform.position.y + 7f, 
                 transform.position.z
             );
             
-            // Instantiate the splatter at the elevated position
             GameObject newSplat = Instantiate(splatterPrefab, spawnPosition, Quaternion.identity);
             NewSplatter(newSplat);
             Destroy(this.gameObject);
