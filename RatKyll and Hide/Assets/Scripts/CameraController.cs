@@ -5,7 +5,7 @@ public class CameraMovement : MonoBehaviour
 {
     [SerializeField] private float sensitivity = 1f;
     [SerializeField] private float minDistance = 1f; // Minimum camera distance from player
-    [SerializeField] private float maxDistance = 5f;   // Maximum allowed distance
+    [SerializeField] private float maxDistance = 5f; 
     [SerializeField] private LayerMask obstacleMask;
     private Transform playerBody;
     private Vector2 lookInput;
@@ -36,11 +36,10 @@ public class CameraMovement : MonoBehaviour
         // Rotate around the player horizontally
         transform.RotateAround(playerBody.position, Vector3.up, lookX);
 
-        // Apply vertical rotation separately
+        // Apply vertical rotation
         xRotation -= lookY;
-        xRotation = Mathf.Clamp(xRotation, -30f, 60f); // Adjust for better angles
+        xRotation = Mathf.Clamp(xRotation, -30f, 60f);
 
-        // Rotate camera up/down without affecting orbiting
         transform.localRotation = Quaternion.Euler(xRotation, transform.localRotation.eulerAngles.y, 0);
 
         AdjustCameraDistance();
