@@ -18,7 +18,6 @@ public class SinkTeleporter : MonoBehaviour
     {
         if (other.gameObject == Player1 || other.gameObject == Player2)
         {
-            // Teleport the player to the teleport point
             other.transform.position = teleportPt.transform.position;
             other.gameObject.GetComponent<Rigidbody>().AddForce(Vector3.up * 300f, ForceMode.Impulse);
             if (!audioSource.isPlaying)
