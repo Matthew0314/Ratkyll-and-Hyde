@@ -48,11 +48,10 @@ public class PotGameManager : MonoBehaviour, IGameManager
         player1ScoreText.text = player1Score.ToString();
         player2ScoreText.text = player2Score.ToString();
         
-        // Make sure game over panel is initially hidden
+        // Makes sure game over panel is initially hidden
         if (gameOverPanel != null)
             gameOverPanel.SetActive(false);
             
-        // Add button listeners
         if (restartButton != null)
             restartButton.onClick.AddListener(RestartGame);
             
@@ -90,21 +89,16 @@ public class PotGameManager : MonoBehaviour, IGameManager
     }
     
     private void StartGameOverSequence() {
-        // Pause the game
         Time.timeScale = 0;
         
-        // Disable player controls
         DisablePlayerControls();
         
-        // Activate the game over panel but make elements invisible
         if (gameOverPanel != null) {
             gameOverPanel.SetActive(true);
             
-            // Set up text content
             if (finalScoresText != null) {
-                finalScoresText.text = string.Format("Final Scores\nPlayer 1: {0}\nPlayer 2: {1}", 
-                                                    player1Score, player2Score);
-                finalScoresText.alpha = 0; // Start invisible
+                finalScoresText.text = string.Format("Final Scores\nPlayer 1: {0}\nPlayer 2: {1}", player1Score, player2Score);
+                finalScoresText.alpha = 0;
             }
             
             if (winnerText != null) {
@@ -115,10 +109,9 @@ public class PotGameManager : MonoBehaviour, IGameManager
                 } else {
                     winnerText.text = "It's a Tie!";
                 }
-                winnerText.alpha = 0; // Start invisible
+                winnerText.alpha = 0;
             }
             
-            // Set buttons invisible
             if (restartButton != null) {
                 CanvasGroup restartBtnGroup = restartButton.GetComponent<CanvasGroup>();
                 if (restartBtnGroup == null) {
@@ -137,7 +130,6 @@ public class PotGameManager : MonoBehaviour, IGameManager
                 menuBtnGroup.interactable = false;
             }
             
-            // Start the animation sequence
             StartCoroutine(AnimateGameOverSequence());
         }
     }
@@ -151,7 +143,7 @@ public class PotGameManager : MonoBehaviour, IGameManager
             elapsedTime += Time.unscaledDeltaTime;
             yield return null;
         }
-        finalScoresText.alpha = 1; // Ensure it's fully visible
+        finalScoresText.alpha = 1; 
         
         // Step 2: Wait before showing the winner
         yield return new WaitForSecondsRealtime(delayBeforeWinnerReveal);
@@ -164,7 +156,7 @@ public class PotGameManager : MonoBehaviour, IGameManager
             elapsedTime += Time.unscaledDeltaTime;
             yield return null;
         }
-        winnerText.alpha = 1; // Ensure it's fully visible
+        winnerText.alpha = 1; 
         
         // Step 4: Wait before showing the buttons
         yield return new WaitForSecondsRealtime(delayBeforeButtonsReveal);
@@ -182,7 +174,6 @@ public class PotGameManager : MonoBehaviour, IGameManager
             yield return null;
         }
         
-        // Ensure buttons are fully visible and interactable
         if (restartBtnGroup != null) {
             restartBtnGroup.alpha = 1;
             restartBtnGroup.interactable = true;
@@ -217,7 +208,6 @@ public class PotGameManager : MonoBehaviour, IGameManager
         Time.timeScale = 1;
         
         // Load the main menu scene
-        // Replace "MainMenu" with your actual main menu scene name
         SceneManager.LoadScene("mainMenu");
     }
 
@@ -235,7 +225,7 @@ public class PotGameManager : MonoBehaviour, IGameManager
             countdownText.text = value;
             countdownText.transform.localScale = Vector3.zero;
 
-            // Expand
+            
             float t = 0f;
             while (t < expandDuration)
             {
@@ -245,10 +235,10 @@ public class PotGameManager : MonoBehaviour, IGameManager
                 yield return null;
             }
 
-            // Hold briefly
+            
             yield return new WaitForSeconds(0.3f);
 
-            // Shrink
+            
             t = 0f;
             while (t < shrinkDuration)
             {
@@ -261,7 +251,7 @@ public class PotGameManager : MonoBehaviour, IGameManager
             yield return null;
         }
 
-        // Hide text at the end
+        
         countdownText.text = "";
         arrow1.gameObject.SetActive(true);
         arrow2.gameObject.SetActive(true);
@@ -281,7 +271,7 @@ public class PotGameManager : MonoBehaviour, IGameManager
         
         totalPoints = player1Score + player2Score;
 
-        // Reset bar sizes
+        
         player1Bar.rectTransform.sizeDelta = new Vector2(0, player1Bar.rectTransform.sizeDelta.y);
         player2Bar.rectTransform.sizeDelta = new Vector2(0, player2Bar.rectTransform.sizeDelta.y);
 
@@ -314,7 +304,7 @@ public class PotGameManager : MonoBehaviour, IGameManager
             yield return null;
         }
 
-        // Ensure final sizes are exact
+        
         player1Bar.rectTransform.sizeDelta = new Vector2(target1, player1Bar.rectTransform.sizeDelta.y);
         player2Bar.rectTransform.sizeDelta = new Vector2(target2, player2Bar.rectTransform.sizeDelta.y);
 
