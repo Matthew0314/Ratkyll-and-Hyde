@@ -1,3 +1,5 @@
+//This script is an old file and is no longer in use. It should be moved to the archive
+
 // using UnityEngine;
 // using System.Collections;
 
