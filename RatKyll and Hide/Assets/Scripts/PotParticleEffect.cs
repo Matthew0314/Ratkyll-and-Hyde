@@ -1,3 +1,4 @@
+//This is script is still used but the object it is used on is now invisible to the player.
 using UnityEngine;
 
 public class PotParticleEffect : MonoBehaviour
@@ -22,41 +23,33 @@ public class PotParticleEffect : MonoBehaviour
 
     void CreateParticleSystem()
     {
-        // Create a new GameObject for the Particle System
         GameObject particleSystemObject = new GameObject("PotParticles");
         particleSystemObject.transform.SetParent(transform);
         particleSystemObject.transform.localPosition = Vector3.zero;
 
-        // Add Particle System Component
         potParticles = particleSystemObject.AddComponent<ParticleSystem>();
 
-        // Configure the Particle System
         var main = potParticles.main;
         main.startColor = particleColor;
         main.startSize = particleSize;
         main.startLifetime = particleLifetime;
         main.simulationSpace = ParticleSystemSimulationSpace.World;
 
-        // Emission module
         var emission = potParticles.emission;
         emission.rateOverTime = emissionRate;
 
-        // Velocity over Lifetime module
         var velocityOverLifetime = potParticles.velocityOverLifetime;
         velocityOverLifetime.enabled = true;
         velocityOverLifetime.y = upwardForce;
 
-        // Shape module
         var shape = potParticles.shape;
         shape.enabled = true;
         shape.shapeType = ParticleSystemShapeType.Cone;
         shape.angle = spreadAngle;
 
-        // Start the Particle System
         potParticles.Play();
     }
 
-    // Optional: Method to adjust particle effect intensity
     public void SetParticleIntensity(float intensity)
     {
         if (potParticles != null)
@@ -65,8 +58,6 @@ public class PotParticleEffect : MonoBehaviour
             emission.rateOverTime = emissionRate * intensity;
         }
     }
-
-    // Optional: Method to change particle color
     public void ChangeParticleColor(Color newColor)
     {
         if (potParticles != null)
