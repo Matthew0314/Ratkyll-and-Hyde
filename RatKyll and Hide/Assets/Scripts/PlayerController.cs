@@ -6,16 +6,16 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
-    private float walkSpeed = 40f; // Speed of character6
+    private float walkSpeed = 40f; 
     private float sprintSpeed = 60f;
     [SerializeField] int playerNum; // 0 for Player1, 1 for Player2
-    [SerializeField] float climbSpeed = 3f; // Speed which player climbs the wall
+    [SerializeField] float climbSpeed = 3f; 
     private float jumpForce = 50f; // Force that is spplied when jumping
     [SerializeField] float pickupRange = 3f;
 
-    private Vector2 movementInput; // Used for movement
-    private PlayerInput playerInput; // Input system
-    // private Gamepad playerGamepad; // Stores the Gamepad that is being used
+    private Vector2 movementInput; 
+    private PlayerInput playerInput; 
+    // private Gamepad playerGamepad;
     private bool isClimbing = false;
     private Rigidbody rb;
     private Vector3 climbNormal;
@@ -26,7 +26,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private AudioClip walkingSound;
     private bool isWalkingSoundPlaying = false;
 
-    // Used for throwing the item
     private float minThrowForce = 5f;
     private float maxThrowForce = 25f;
     public float chargeTime = 2f;
@@ -62,7 +61,6 @@ public class PlayerController : MonoBehaviour
 
         // Debug.LogError(Gamepad.all.Count);
 
-        // Assigns controllers based on player number
         if (playerNum == 0)
         {
             // Player 1 always uses the first available gamepad
@@ -105,11 +103,9 @@ public class PlayerController : MonoBehaviour
 
         if (_gameManager.GameOver || !canMove) return;
 
-        // Ensure "Sprint" is bound in your Input Actions
         if (playerInput.actions["Sprint"].IsPressed() && _heldItem == null) isSprinting = true;
         else isSprinting = false;
 
-        // Either climbs or moves the character
         if (isClimbing)
         {
             ClimbMovement();
@@ -188,7 +184,6 @@ public class PlayerController : MonoBehaviour
     }
 
     // Throws the object
-    // Throwing mechanic is broken
     void ThrowObject()
     {
         isCharging = false;
@@ -272,13 +267,10 @@ public class PlayerController : MonoBehaviour
     private void TryPickupItem()
     {
 
-        // If player already has an item, return back to update.
         if (_heldItem != null) return;
 
-        // Get all colliders within range
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, pickupRange);
 
-        // For every collider in range, check if 
         foreach (var hitCollider in hitColliders)
         {
             if (hitCollider.CompareTag("Pickable"))
@@ -306,12 +298,12 @@ public class PlayerController : MonoBehaviour
         IPickUpItem usableItem = item.GetComponent<IPickUpItem>();
         if (usableItem != null)
         {
-            _heldItem = usableItem; // Store the item
-            usableItem.LastPlayer = this; // Stores this script in the LastPlayer variable
-                                          // usableItem.PickUpItem(); // Call the PickUpItem method from the interface
+            _heldItem = usableItem;
+            usableItem.LastPlayer = this;
+                                          // usableItem.PickUpItem(); 
 
-            item.transform.SetParent(transform); // Attach the item to the player
-            item.transform.localPosition = new Vector3(0, 1, 1); // Adjust the position to appear in the player's hand
+            item.transform.SetParent(transform); 
+            item.transform.localPosition = new Vector3(0, 1, 1); 
             if (!audioSource.isPlaying)
             {
                 audioSource.clip = swipeClip;
@@ -414,7 +406,7 @@ public class PlayerController : MonoBehaviour
     {
         yield return new WaitForSeconds(7f);
 
-        // Get all Image components in children (including inactive ones if needed)
+        
         Image[] images = parentObj.GetComponentsInChildren<Image>(true);
         if (images.Length == 0)
         {
@@ -422,7 +414,7 @@ public class PlayerController : MonoBehaviour
             yield break;
         }
 
-        // Record start and end colors
+        
         Color[] startColors = new Color[images.Length];
         for (int i = 0; i < images.Length; i++)
         {
@@ -443,7 +435,7 @@ public class PlayerController : MonoBehaviour
             yield return null;
         }
 
-        // Set final alpha to 0
+        
         foreach (var image in images)
         {
             Color finalColor = image.color;
@@ -451,37 +443,12 @@ public class PlayerController : MonoBehaviour
             image.color = finalColor;
         }
 
-        // Disable parent GameObject
+       
         parentObj.SetActive(false);
     }
 
 
 
-
-    // private void HandleJump() {
-    //     if (isClimbing) {
-    //         isClimbing = false;
-    //         rb.useGravity = true;
-    //         Vector3 forceDirection = -transform.forward; // Opposite direction
-    //         rb.AddForce(forceDirection * jumpForce, ForceMode.Impulse);
-    //         animator.SetTrigger("Jump");
-    //         animator.SetBool("IsJumping", true);
-    //         if (!audioSource.isPlaying)
-    //         {
-    //             audioSource.clip = jumpClip;
-    //             audioSource.Play();
-    //         }
-    //     } else if (IsGrounded()) {
-    //         Debug.LogError("JUMPPPPPIIINNNGGG");
-    //         animator.SetTrigger("Jump");
-    //         animator.SetBool("IsJumping", true);
-    //         rb.linearVelocity = new Vector3(rb.linearVelocity.x, jumpForce, rb.linearVelocity.z);
-    //         if (!audioSource.isPlaying) {
-    //             audioSource.clip = jumpClip;
-    //             audioSource.Play();
-    //         }
-    //     }
-    // }
     private void HandleJump()
     {
         if (isClimbing)
@@ -531,28 +498,6 @@ public class PlayerController : MonoBehaviour
         isLanding = false;
     }
 
-    // Used for jumping
-    // public void OnJump(InputAction.CallbackContext context) {
-    //     if (isClimbing && context.performed) {
-    //         isClimbing = false;
-    //         rb.useGravity = true;
-    //         Vector3 forceDirection = -transform.forward; // Opposite direction
-    //         rb.AddForce(forceDirection * jumpForce, ForceMode.Impulse);
-    //         if (!audioSource.isPlaying) {
-    //             audioSource.clip = jumpClip;
-    //             audioSource.Play();
-    //         }
-    //     } else if (context.performed && IsGrounded()) {
-    //         Debug.LogError("AHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
-    //         rb.linearVelocity = new Vector3(rb.linearVelocity.x, jumpForce, rb.linearVelocity.z);
-    //         if (!audioSource.isPlaying) {
-    //             audioSource.clip = jumpClip;
-    //             audioSource.Play();
-    //         }
-    //     }
-
-
-    // }
     private void StartWalkingSound()
     {
         if (walkingSound != null && !isWalkingSoundPlaying)
