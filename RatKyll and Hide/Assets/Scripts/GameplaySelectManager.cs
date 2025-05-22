@@ -1,9 +1,11 @@
+
+//This file is no longer in use, it should be moved to the archive
 using UnityEngine;
-using UnityEngine.SceneManagement; // Added for scene management functionality
+using UnityEngine.SceneManagement; 
 
 public class GameplaySelectManager : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    
     void Start()
     {
         
@@ -19,7 +21,7 @@ public class GameplaySelectManager : MonoBehaviour
         }
     }
     
-    // Function to load LevelOne scene when button is pressed
+    
     public void LoadLevelOne()
     {
         Debug.Log("Loading Level One...");
